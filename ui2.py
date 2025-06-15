@@ -3,6 +3,30 @@ from typing import Iterable
 import gradio as gr
 from gradio.themes.base import Base
 from gradio.themes.utils import colors, fonts, sizes
+import aiml
+import os
+import time
+import html
+
+
+def init_aiml_kernel():
+    kernel = aiml.Kernel()
+
+    aiml_file = "user_driven.aiml"
+    if not os.path.isfile(aiml_file):
+        raise FileNotFoundError(f"AIML file not found: {aiml_file}")
+    brain_file = "bot_brain.brn"
+    if os.path.isfile(brain_file):
+        kernel.bootstrap(brainFile=brain_file)
+    else:
+        kernel.learn(aiml_file)
+        kernel.saveBrain(brain_file)
+
+    return kernel
+
+
+kernel = init_aiml_kernel()
+
 
 class Seafoam(Base):
     def __init__(
@@ -55,7 +79,28 @@ class Seafoam(Base):
             button_large_padding="14px",  
         )
 
+
 seafoam = Seafoam()
+
+
+def preprocess_aiml_response(response: str) -> str:
+    """处理 AIML 响应以在 Gradio 中正确显示"""
+    response = response.replace("_br_", "\n\n")
+    response = response.replace("_b_", "**")
+    response = response.replace("_i_", "*")
+    response = html.unescape(response)
+    return response or "I'm not sure how to answer that. Try asking about careers, majors, or career preparation tips."
+
+
+def respond(message: str, chat_history: list) -> tuple:
+    processed_input = message.strip().upper()
+    response = kernel.respond(processed_input)
+    formatted_response = preprocess_aiml_response(response)
+    time.sleep(0.3)
+    chat_history.append((message, formatted_response))
+    return chat_history, ""
+
+
 with gr.Blocks(theme=seafoam) as demo:
     # 加标题和描述
     gr.Markdown("## Xplore Career Chatbot")
@@ -67,26 +112,21 @@ with gr.Blocks(theme=seafoam) as demo:
         user_input = gr.Textbox(placeholder="Welcome to ask questions about career!", show_label=False)
 
     with gr.Row(equal_height=True):
-        submit = gr.Button("Send(发送)", size="sm")
-        clear = gr.Button("Clear(清除)", size="sm")
+        submit = gr.Button("Send", size="sm")
+        clear = gr.Button("Clear", size="sm")
 
     with gr.Row():
         gr.Markdown("**Examples:**")
-        example1 = gr.Button("A", size="sm")
-        example2 = gr.Button("B", size="sm")
-        example3 = gr.Button("C", size="sm")
-
-    def respond(message, chat_history):
-        response = f"测试阶段,重复用户的话: {message}"
-        chat_history = chat_history + [[message, response]]
-        return chat_history, ""
+        example1 = gr.Button("CAREERS FOR AIT", size="sm")
+        example2 = gr.Button("DESCRIBE AUDITOR", size="sm")
+        example3 = gr.Button("CV HELP", size="sm")
 
     submit.click(respond, [user_input, chatbot], [chatbot, user_input])
     clear.click(lambda: [], None, chatbot)
 
-    example1.click(lambda: "A", None, user_input)
-    example2.click(lambda: "B", None, user_input)
-    example3.click(lambda: "C", None, user_input)
+    example1.click(lambda: "CAREERS FOR AIT", None, user_input)
+    example2.click(lambda: "DESCRIBE AUDITOR", None, user_input)
+    example3.click(lambda: "CV HELP", None, user_input)
 
 
 demo.launch()
