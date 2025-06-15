@@ -1,0 +1,51 @@
+Profession,Mathematical Skills,Programming Ability,Creativity,Analytical Skills,Communication Skills,Leadership Skills,Business Acumen,Problem-Solving,Teamwork,Adaptability
+Backend Developer,0.6,0.95,-0.1,0.8,0.5,0.4,0.3,0.9,0.8,0.8
+Frontend Developer,0.4,0.9,0.7,0.7,0.6,0.3,0.4,0.8,0.9,0.9
+Mobile App Developer (iOS/Android),0.4,0.9,0.6,0.7,0.6,0.3,0.5,0.85,0.8,0.9
+DevOps Engineer,0.5,0.8,0.1,0.8,0.7,0.5,0.5,0.95,0.8,0.95
+Machine Learning Engineer,0.9,0.9,0.4,0.9,0.6,0.4,0.5,0.9,0.8,0.9
+Data Scientist,0.9,0.9,0.5,0.95,0.7,0.4,0.6,0.9,0.8,0.9
+Data Engineer,0.7,0.9,-0.1,0.8,0.6,0.4,0.5,0.9,0.8,0.9
+Cybersecurity Analyst,0.5,0.8,-0.1,0.9,0.7,0.3,0.5,0.9,0.7,0.9
+Penetration Tester (Ethical Hacker),0.4,0.85,0.6,0.9,0.5,0.2,0.3,0.95,0.6,0.9
+Cloud Solutions Architect,0.5,0.8,0.4,0.9,0.7,0.7,0.7,0.9,0.8,0.9
+Tech Product Manager,0.4,0.5,0.7,0.8,0.9,0.8,0.9,0.9,0.9,0.9
+UI/UX Designer,0.2,0.4,0.9,0.85,0.8,0.4,0.6,0.8,0.9,0.8
+3D Modeler,-0.1,0.5,0.9,0.5,0.5,0.1,0.2,0.6,0.8,0.7
+Game Designer,0.3,0.5,0.95,0.7,0.7,0.5,0.6,0.8,0.9,0.8
+E-commerce Operations Specialist,0.4,0.3,0.5,0.7,0.7,0.4,0.8,0.8,0.8,0.9
+Digital Marketing Manager,0.4,0.3,0.8,0.8,0.8,0.7,0.85,0.8,0.8,0.9
+SEO/SEM Specialist,0.5,0.5,0.6,0.9,0.6,0.3,0.7,0.8,0.6,0.9
+Supply Chain Analyst,0.7,0.4,-0.1,0.85,0.7,0.4,0.7,0.8,0.8,0.8
+Management Consultant,0.6,0.3,0.6,0.95,0.9,0.7,0.9,0.9,0.8,0.9
+Brand Manager,0.3,0.2,0.8,0.8,0.8,0.7,0.9,0.8,0.8,0.8
+Auditor (Public Accounting),0.9,0.1,-0.4,0.9,0.6,0.4,0.6,0.7,0.8,0.7
+Tax Consultant,0.9,0.1,-0.2,0.85,0.7,0.3,0.7,0.7,0.6,0.8
+Management Accountant,0.8,0.3,0.1,0.8,0.7,0.5,0.8,0.8,0.7,0.7
+Investment Banking Analyst,0.9,0.5,-0.2,0.95,0.8,0.5,0.8,0.8,0.9,0.9
+Financial Risk Manager,0.9,0.6,-0.3,0.9,0.7,0.4,0.8,0.8,0.7,0.8
+Wealth Management Advisor,0.6,0.2,0.3,0.8,0.9,0.6,0.9,0.7,0.7,0.8
+Quantitative Analyst (Quant),0.95,0.9,-0.1,0.95,0.5,0.3,0.7,0.9,0.7,0.8
+Journalist / Editor,0.1,0.1,0.7,0.7,0.9,0.3,0.3,0.8,0.6,0.9
+Public Relations Specialist,0.1,0.1,0.7,0.7,0.95,0.5,0.7,0.8,0.8,0.9
+Creative Copywriter (Advertising),-0.2,-0.3,0.95,0.5,0.8,0.2,0.5,0.6,0.7,0.8
+Art Director (Advertising),-0.3,-0.2,0.95,0.6,0.8,0.7,0.6,0.7,0.8,0.8
+Social Media Manager,0.1,0.1,0.8,0.7,0.8,0.5,0.7,0.7,0.7,0.9
+Translator (Chinese/English),-0.2,-0.3,0.3,0.6,0.7,-0.2,0.2,0.7,0.3,0.8
+Interpreter (Chinese/English),-0.1,-0.2,0.4,0.6,0.95,0.2,0.3,0.8,0.4,0.9
+Chinese Language Teacher (International),-0.1,-0.2,0.7,0.5,0.9,0.4,0.2,0.6,0.7,0.8
+English Teacher (ESL),-0.1,-0.2,0.7,0.5,0.9,0.4,0.2,0.6,0.7,0.8
+TCM Practitioner,0.6,-0.1,0.3,0.8,0.9,0.2,0.5,0.8,0.5,0.8
+TCM Researcher,0.7,0.3,0.2,0.9,0.7,0.4,0.3,0.8,0.8,0.7
+Electronics Hardware Engineer,0.8,0.7,0.2,0.8,0.6,0.4,0.4,0.9,0.8,0.7
+Telecommunications Engineer,0.8,0.7,-0.1,0.8,0.6,0.4,0.5,0.85,0.8,0.8
+Process Engineer (Chemical),0.9,0.5,-0.4,0.85,0.7,0.5,0.6,0.9,0.8,0.8
+Safety Engineer (Chemical),0.7,0.3,-0.5,0.8,0.7,0.5,0.6,0.9,0.8,0.8
+Solar Energy Engineer,0.8,0.6,0.4,0.8,0.6,0.5,0.6,0.9,0.8,0.8
+Marine Biologist,0.7,0.3,0.4,0.85,0.6,0.4,0.2,0.8,0.8,0.8
+Marine Conservationist,0.5,0.2,0.5,0.7,0.8,0.5,0.4,0.7,0.8,0.8
+Hydrographic Surveyor,0.8,0.5,-0.2,0.8,0.6,0.4,0.4,0.8,0.7,0.9
+Actuary,0.95,0.6,-0.3,0.9,0.7,0.4,0.8,0.8,0.6,0.8
+Statistician,0.95,0.7,-0.4,0.9,0.7,0.3,0.5,0.8,0.6,0.7
+Physics Researcher,0.95,0.7,0.3,0.95,0.6,0.4,0.1,0.9,0.8,0.8
+Materials Engineer,0.9,0.5,0.4,0.8,0.6,0.4,0.5,0.8,0.8,0.7
