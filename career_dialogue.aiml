@@ -39,26 +39,7 @@ If not, just say "I don't know".
     <template>
 Okay, your MBTI is {mbti}.
 Last question: please look at the list below and enter the numbers (1-3 choices) for situations you find challenging. Separate numbers with a comma.
-
-1. dislikes group projects
-2. dislikes public speaking
-3. hard to come up with new ideas
-4. dislikes complex data or math
-5. prefers clear instructions
-6. loses the big picture with too much info
-7. not interested in business operations
-8. anxious under pressure
-9. finds it difficult to persuade others
-10. prefers to work independently
-11. tends to procrastinate
-12. dislikes interpersonal conflicts
-13. gets bored by routine tasks
-14. dislikes networking
-15. tends to be a perfectionist
-16. finds it hard to maintain focus
-17. not good at reporting work
-18. struggles with theoretical concepts
-19. hesitates when making decisions
+[CHALLENGE_LIST]
     </template>
 </category>
 
@@ -69,26 +50,7 @@ That's okay, many people don't. If you're curious, you can take a free test at: 
 For now, we can skip this part.
 
 Last question: please look at the list below and enter the numbers (1-3 choices) for situations you find challenging. Separate numbers with a comma.
-
-1. dislikes group projects
-2. dislikes public speaking
-3. hard to come up with new ideas
-4. dislikes complex data or math
-5. prefers clear instructions
-6. loses the big picture with too much info
-7. not interested in business operations
-8. anxious under pressure
-9. finds it difficult to persuade others
-10. prefers to work independently
-11. tends to procrastinate
-12. dislikes interpersonal conflicts
-13. gets bored by routine tasks
-14. dislikes networking
-15. tends to be a perfectionist
-16. finds it hard to maintain focus
-17. not good at reporting work
-18. struggles with theoretical concepts
-19. hesitates when making decisions
+[CHALLENGE_LIST]
     </template>
 </category>
 
@@ -108,7 +70,7 @@ If everything is correct, please say "confirm". If you need to make changes, ple
 
 <category>
     <pattern>FINALRESPONSE</pattern>
-    <template>Great! I will now send this information to your friend's expert system for analysis. Please wait, the results will be ready shortly...</template>
+    <template>Great! I will now send this information to expert system for analysis. Please wait, the results will be ready shortly...</template>
 </category>
 
 </aiml>
