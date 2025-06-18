@@ -61,16 +61,15 @@ class Seafoam(Base):
         )
 
 
+#The connection part between the expert system and the robot-driven template based
 class CareerChatbot:
     def __init__(self, aiml_file="career_dialogue.aiml"):
-        # 加载 AIML 内核
         self.kernel = aiml.Kernel()
         if os.path.exists(aiml_file):
             self.kernel.learn(aiml_file)
         else:
             raise FileNotFoundError(f"AIML file '{aiml_file}' not found in the directory.")
 
-        # 这是原来在 app.py 中的常量，现在移到这里
         self.CHALLENGE_MAP = {
             '1': 'dislikes group projects', '2': 'dislikes public speaking or presentations',
             '3': 'hard to come up with new, original ideas', '4': 'gets a headache from complex data or math',
@@ -91,30 +90,6 @@ class CareerChatbot:
             '19': 'hesitates when making decisions'
         }
 
-
-        self.formatted_challenge_list = """
-1. dislikes group projects
-2. dislikes public speaking
-3. hard to come up with new ideas
-4. dislikes complex data or math
-5. prefers clear instructions
-6. loses the big picture with too much info
-7. not interested in business operations
-8. anxious under pressure
-9. finds it difficult to persuade others
-10. prefers to work independently
-11. tends to procrastinate
-12. dislikes interpersonal conflicts
-13. gets bored by routine tasks
-14. dislikes networking
-15. tends to be a perfectionist
-16. finds it hard to maintain focus
-17. not good at reporting work
-18. struggles with purely theoretical concepts
-19. hesitates when making decisions
-"""
-
-        # 初始化对话状态
         self.reset()
 
     def reset(self):
@@ -126,6 +101,7 @@ class CareerChatbot:
     def _generate_analysis_report(self, profile: UserProfile) -> str:
 
         f = io.StringIO()
+
         with redirect_stdout(f):
             inference_engine(profile, RULE_BASE)
             final_abilities = profile.abilities.sort_values(ascending=False)
@@ -133,14 +109,15 @@ class CareerChatbot:
             for ability, score in final_abilities.items():
                 print(f"{ability:<25} {score:+.2f}")
             print("=" * 35)
+
         return f.getvalue()
 
     def get_response(self, user_input: str) -> str:
-        """这是UI唯一需要调用的函数，包含了完整的对话状态机逻辑。"""
+
+        #From the original connection part app.py, which is the only part of the UI that needs to be mobilized
         bot_response = ""
         user_input = user_input.strip()
 
-        # (这里的状态机逻辑保持不变，从 if self.conversation_state == 0 ... 到 ... else: bot_response = "...")
         if self.conversation_state == 0:
             if user_input.lower() in ['hello', 'hi', '你好']:
                 bot_response = self.kernel.respond("GREETING")
@@ -150,16 +127,22 @@ class CareerChatbot:
                     self.conversation_state = 1
             else:
                 bot_response = "Sorry, I didn't understand. Please say 'hello' or 'start'."
+
+
         elif self.conversation_state == 1:
             self.user_data['major'] = user_input
             template = self.kernel.respond("ASKINTERESTS")
             bot_response = template.format(major=self.user_data['major'])
             self.conversation_state = 2
+
+
         elif self.conversation_state == 2:
             self.user_data['interests'] = user_input
             template = self.kernel.respond("ASKMBTI")
             bot_response = template.format(interests=self.user_data['interests'])
             self.conversation_state = 3
+
+
         elif self.conversation_state == 3:
             if user_input.lower() in ["i don't know", "i dont know", "not sure", "不知道"]:
                 self.user_data['mbti'] = "Unknown"
@@ -171,34 +154,49 @@ class CareerChatbot:
                 bot_response = template.format(mbti=self.user_data['mbti'])
             if template:
                 self.conversation_state = 4
+
+
         elif self.conversation_state == 4:
             self.user_data['challenges_input'] = user_input
             template = self.kernel.respond("CONFIRMINFO")
             bot_response = template.format(**self.user_data)
             self.conversation_state = 5
+
+
         elif self.conversation_state == 5:
             if user_input.lower() in ['confirm', '确认']:
                 final_message = self.kernel.respond("FINALRESPONSE")
+
+
                 user_major = self.user_data.get('major', '')
                 user_interests_str = self.user_data.get('interests', '')
                 user_mbti = self.user_data.get('mbti', '')
                 user_challenges_str = self.user_data.get('challenges_input', '')
+
                 user_interests = [interest.strip() for interest in user_interests_str.split(',')]
                 if user_mbti == 'Unknown': user_mbti = ""
                 challenge_numbers = [num.strip() for num in user_challenges_str.split(',')]
                 user_challenges = [self.CHALLENGE_MAP[num] for num in challenge_numbers if num in self.CHALLENGE_MAP]
+
                 profile = UserProfile(major=user_major, interests=user_interests, mbti=user_mbti,
                                       challenges=user_challenges)
+
+
                 analysis_result = self._generate_analysis_report(profile)
+
                 bot_response = f"{final_message}\n\n```text\n{analysis_result}\n```\n\n[System] Analysis complete. You can say 'start over' to begin."
+
                 self.reset()
                 self.conversation_state = 6
+
             elif user_input.lower() in ['start over', '重新开始']:
                 self.reset()
                 bot_response = self.kernel.respond("STARTPLANNING")
                 self.conversation_state = 1
             else:
                 bot_response = "Sorry, I didn't understand. Please say 'confirm' or 'start over'."
+
+
         elif self.conversation_state == 6:
             if user_input.lower() in ['start over', '重新开始']:
                 self.reset()
@@ -206,25 +204,30 @@ class CareerChatbot:
                 self.conversation_state = 1
             else:
                 bot_response = "The analysis is complete. If you want to start a new one, please say 'start over'."
+
+
         if not bot_response:
             bot_response = "Sorry, an internal error occurred. Let's try starting over. What is your full major?"
             self.reset()
             self.conversation_state = 1
 
-
-        if "[CHALLENGE_LIST]" in bot_response:
-            bot_response = bot_response.replace("[CHALLENGE_LIST]", self.formatted_challenge_list)
-
         return bot_response
 
 
+
+# 1. Create a unique instance of chatbot
 chatbot_instance = CareerChatbot()
 
+def process_ui_formatting(text: str) -> str:
+    return text.replace('_br_', '\n')# Convert line breaks in aiml to readable form
+
+# 2. Define the UI layout
 seafoam = Seafoam()
 with gr.Blocks(theme=seafoam) as demo:
     gr.Markdown("## Xplore Career Chatbot")
     gr.Markdown("This is **Xplore Career Chatbot**. Start your conversation below.")
 
+    # Fix warning: Remove the bubble_full_width parameter
     chatbot_ui = gr.Chatbot(label="Xplore Career Bot", height=500)
 
     with gr.Row():
@@ -235,23 +238,30 @@ with gr.Blocks(theme=seafoam) as demo:
         clear_button = gr.Button("Clear History", variant="secondary")
 
 
-
+    # 3. Define the response function of the UI
+    # In order to convert line breaks, the response function also needs to be adjusted accordingly
     def respond(message, chat_history):
-        bot_response = chatbot_instance.get_response(message)
-        chat_history.append((message, bot_response))
+        raw_response = chatbot_instance.get_response(message)
+        formatted_response = process_ui_formatting(raw_response)  # Call the processing function
+        chat_history.append((message, formatted_response))
         return "", chat_history
 
 
-
+    # 4. Define the clear function
     def clear_and_reset():
         chatbot_instance.reset()
         return []
 
 
+    # 5. Binding UI Events
+    # #.then() allows us to link one event after another
+    # Here, after clear_and_reset, we call initial_load to display the welcome message
+    # In order to convert line breaks, the initial function also needs to be adjusted accordingly
     def initial_load():
         chatbot_instance.reset()
-        initial_message = chatbot_instance.get_response("hello")
-        return [[None, initial_message]]
+        raw_initial_message = chatbot_instance.get_response("hello")
+        formatted_initial_message = process_ui_formatting(raw_initial_message)
+        return [[None, formatted_initial_message]]
 
 
     submit_action = submit_button.click(respond, [user_input, chatbot_ui], [user_input, chatbot_ui], queue=False)
