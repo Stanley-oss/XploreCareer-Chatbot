@@ -4,7 +4,7 @@
 <category>
     <pattern>GREETING</pattern>
     <template>
-Hello! I'm your career planning assistant.
+Hello! I'm your career planning assistant._br_
 Ready to start your career exploration journey?
     </template>
 </category>
@@ -12,7 +12,7 @@ Ready to start your career exploration journey?
 <category>
     <pattern>STARTPLANNING</pattern>
     <template>
-Great! To get to know you better, I'll ask a few questions.
+Great! To get to know you better, I'll ask a few questions._br_
 First, what is your full major?
     </template>
 </category>
@@ -20,7 +20,7 @@ First, what is your full major?
 <category>
     <pattern>ASKINTERESTS</pattern>
     <template>
-Okay, your major is {major}.
+Okay, your major is {major}._br_
 Next, what are your hobbies and interests? Please separate multiple interests with a comma.
     </template>
 </category>
@@ -28,8 +28,8 @@ Next, what are your hobbies and interests? Please separate multiple interests wi
 <category>
     <pattern>ASKMBTI</pattern>
     <template>
-Received! Your interests are {interests}.
-Now, do you know your 4-letter MBTI personality type? (e.g., INTJ, ENFP).
+Received! Your interests are {interests}._br_
+Now, do you know your 4-letter MBTI personality type? (e.g., INTJ, ENFP)._br_
 If not, just say "I don't know".
     </template>
 </category>
@@ -37,32 +37,67 @@ If not, just say "I don't know".
 <category>
     <pattern>ASKCHALLENGES</pattern>
     <template>
-Okay, your MBTI is {mbti}.
-Last question: please look at the list below and enter the numbers (1-3 choices) for situations you find challenging. Separate numbers with a comma.
-[CHALLENGE_LIST]
+Okay, your MBTI is {mbti}._br_
+Last question: please look at the list below and enter the numbers (1-3 choices) for situations you find challenging. Separate numbers with a comma._br_
+1. dislikes group projects_br_
+2. dislikes public speaking_br_
+3. hard to come up with new ideas_br_
+4. dislikes complex data or math_br_
+5. prefers clear instructions_br_
+6. loses the big picture with too much info_br_
+7. not interested in business operations_br_
+8. anxious under pressure_br_
+9. finds it difficult to persuade others_br_
+10. prefers to work independently_br_
+11. tends to procrastinate_br_
+12. dislikes interpersonal conflicts_br_
+13. gets bored by routine tasks_br_
+14. dislikes networking_br_
+15. tends to be a perfectionist_br_
+16. finds it hard to maintain focus_br_
+17. not good at reporting work_br_
+18. struggles with theoretical concepts_br_
+19. hesitates when making decisions
     </template>
 </category>
 
 <category>
     <pattern>ASKCHALLENGESSKIPMBTI</pattern>
     <template>
-That's okay, many people don't. If you're curious, you can take a free test at: https://www.16personalities.com/
-For now, we can skip this part.
-
-Last question: please look at the list below and enter the numbers (1-3 choices) for situations you find challenging. Separate numbers with a comma.
-[CHALLENGE_LIST]
+That's okay, many people don't. If you're curious, you can take a free test at: https://www.16personalities.com/_br_
+For now, we can skip this part._br_
+Last question: please look at the list below and enter the numbers (1-3 choices) for situations you find challenging. Separate numbers with a comma._br_
+1. dislikes group projects_br_
+2. dislikes public speaking_br_
+3. hard to come up with new ideas_br_
+4. dislikes complex data or math_br_
+5. prefers clear instructions_br_
+6. loses the big picture with too much info_br_
+7. not interested in business operations_br_
+8. anxious under pressure_br_
+9. finds it difficult to persuade others_br_
+10. prefers to work independently_br_
+11. tends to procrastinate_br_
+12. dislikes interpersonal conflicts_br_
+13. gets bored by routine tasks_br_
+14. dislikes networking_br_
+15. tends to be a perfectionist_br_
+16. finds it hard to maintain focus_br_
+17. not good at reporting work_br_
+18. struggles with theoretical concepts_br_
+19. hesitates when making decisions
     </template>
 </category>
 
 <category>
     <pattern>CONFIRMINFO</pattern>
     <template>
-Alright, all the information has been collected. Let's confirm one last time:
+Alright, all the information has been collected. Let's confirm one last time:_br_
 
-- Your Major: {major}
-- Your Interests: {interests}
-- Your MBTI: {mbti}
-- Your Chosen Challenges (Numbers): {challenges_input}
+- Your Major: {major}_br_
+- Your Interests: {interests}_br_
+- Your MBTI: {mbti}_br_
+- Your Chosen Challenges (Numbers): {challenges_input}_br_
 
 If everything is correct, please say "confirm". If you need to make changes, please say "start over".
     </template>
@@ -70,7 +105,10 @@ If everything is correct, please say "confirm". If you need to make changes, ple
 
 <category>
     <pattern>FINALRESPONSE</pattern>
-    <template>Great! I will now send this information to expert system for analysis. Please wait, the results will be ready shortly...</template>
+    <template>
+Great! I will now send this information to expert system for analysis. _br_
+Please wait, the results will be ready shortly...
+    </template>
 </category>
 
 </aiml>
