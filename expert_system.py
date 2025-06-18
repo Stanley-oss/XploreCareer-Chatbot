@@ -2,17 +2,16 @@ import pandas as pd
 import numpy as np
 from typing import List, Dict, Any
 
-# --- 步骤 1: 知识库终极版 ---
+# --- Step 1: Knowledge Base Ultimate Edition ---
 
-# 10项核心能力列表
+# List of 10 core competencies
 ABILITY_COLUMNS = [
     'Mathematical Skills', 'Programming Ability', 'Creativity', 'Analytical Skills', 'Communication Skills',
     'Leadership Skills', 'Business Acumen', 'Problem-Solving', 'Teamwork', 'Adaptability'
 ]
 
-# REVISED: 规则库V7.3 - 恢复原始权重，并进行终极扩充
 RULE_BASE = [
-    # ============== A类: 专业规则 (原始权重) ==============
+    # ============== Category A: Professional Rules ==============
     {'type': 'Major', 'conditions': ['Computer Science and Technology', 'CST'],
      'effects': {'Programming Ability': 0.5, 'Problem-Solving': 0.4, 'Analytical Skills': 0.4,
                  'Mathematical Skills': 0.3}},
@@ -67,7 +66,7 @@ RULE_BASE = [
     {'type': 'Major', 'conditions': ['Traditional Chinese Medicine', 'TCM'],
      'effects': {'Analytical Skills': 0.4, 'Communication Skills': 0.3, 'Problem-Solving': 0.2, 'Adaptability': 0.2}},
 
-    # ============== B类: 兴趣特长规则 (终极扩充) ==============
+    # ============== Category B: Rules for Special Interests and Talents ==============
     {'type': 'Interest', 'conditions': ['programming contest', 'coding', 'developing'],
      'effects': {'Programming Ability': 0.4, 'Problem-Solving': 0.3, 'Mathematical Skills': 0.2}},
     {'type': 'Interest', 'conditions': ['math modeling', 'modeling'],
@@ -116,7 +115,7 @@ RULE_BASE = [
     {'type': 'Interest', 'conditions': ['learning languages'],
      'effects': {'Communication Skills': 0.3, 'Adaptability': 0.2}},
 
-    # ============== C类: 性格规则 (回归纯粹MBTI) ==============
+    # ============== Type C: Personality Rules ==============
     {'type': 'MBTI', 'condition': 'E',
      'effects': {'Communication Skills': 0.3, 'Teamwork': 0.2, 'Leadership Skills': 0.1}},
     {'type': 'MBTI', 'condition': 'I',
@@ -131,7 +130,7 @@ RULE_BASE = [
      'effects': {'Leadership Skills': 0.2, 'Problem-Solving': 0.1, 'Adaptability': -0.2}},
     {'type': 'MBTI', 'condition': 'P', 'effects': {'Adaptability': 0.3, 'Creativity': 0.2, 'Leadership Skills': -0.1}},
 
-    # ============== D类: 挑战情境规则 (终极扩充) ==============
+    # ============== Category D: Challenging Situational Rules ==============
     {'type': 'Challenge', 'condition': 'dislikes group projects',
      'suppression_factors': {'Teamwork': 0.2, 'Communication Skills': 0.7, 'Leadership Skills': 0.8},
      'direct_effects': {'Teamwork': -0.2}},
@@ -188,7 +187,7 @@ RULE_BASE = [
 ]
 
 
-# --- 步骤 2: 引入“边际效应递减”的智能用户画像类 ---
+# --- Step 2: Introduce the smart user profile class with ‘diminishing marginal returns’ ---
 
 class UserProfile:
     def __init__(self, major: str, interests: List[str], mbti: str, challenges: List[str]):
@@ -198,16 +197,13 @@ class UserProfile:
         self.challenges = challenges
         self.abilities = pd.Series(0.0, index=ABILITY_COLUMNS)
 
-    # MODIFIED: 核心修改！应用效果时，引入边际效应递减
     def apply_effects(self, effects: Dict[str, float]):
         for ability, effect in effects.items():
             if ability in self.abilities.index:
                 current_score = self.abilities[ability]
 
-                # 计算“剩余空间”，分数越接近极值，剩余空间越小
                 remaining_space = 1 - abs(current_score)
 
-                # 新的增益/减益效果，会根据剩余空间进行缩放
                 adjusted_effect = effect * remaining_space
 
                 self.abilities[ability] += adjusted_effect
@@ -221,30 +217,29 @@ class UserProfile:
         self.abilities = np.clip(self.abilities, -1.0, 1.0)
 
 
-# --- 步骤 3: 推理机和主函数 (保持不变) ---
+# --- Step 3: Reasoning machine and main function (remains unchanged) ---
 
 def inference_engine(user_profile: UserProfile, rules: List[Dict[str, Any]]):
-    # 阶段1: 应用所有非挑战规则
-    # 专业规则
+
     for rule in rules:
         if rule['type'] == 'Major' and any(
                 keyword.lower() in user_profile.major.lower() for keyword in rule['conditions']):
             user_profile.apply_effects(rule['effects'])
             break
-    # 兴趣规则
+
     for interest in user_profile.interests:
         for rule in rules:
             if rule['type'] == 'Interest' and any(
                     keyword.lower() in interest.lower() for keyword in rule['conditions']):
                 user_profile.apply_effects(rule['effects'])
-    # MBTI性格规则
+
     if user_profile.mbti:
         for letter in user_profile.mbti:
             for rule in rules:
                 if rule['type'] == 'MBTI' and letter == rule['condition']:
                     user_profile.apply_effects(rule['effects'])
 
-    # 阶段2: 应用挑战规则
+
     for challenge in user_profile.challenges:
         for rule in rules:
             if rule['type'] == 'Challenge' and challenge == rule['condition']:
@@ -253,17 +248,11 @@ def inference_engine(user_profile: UserProfile, rules: List[Dict[str, Any]]):
                 if 'direct_effects' in rule:
                     user_profile.apply_effects(rule['direct_effects'])
 
-    # 阶段3: 最终归一化
+
     user_profile.normalize_scores()
 
 
 def main():
-    # --- 模拟一个画像丰富的用户 ---
-    user_major = "ADT"  # Advertising
-    user_interests = ["debating", "art", "startup"]
-    user_mbti = "ENTP"
-    user_challenges = ["tends to procrastinate, deadlines are the main motivation",
-                       "afraid of making mistakes, tends to be a perfectionist"]
 
     print(f"=== User Ability Assessment System ===")
     print(f"Major: {user_major}")
