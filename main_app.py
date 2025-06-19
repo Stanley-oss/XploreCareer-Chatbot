@@ -61,6 +61,23 @@ class Seafoam(Base):
         )
 
 
+def init_aiml_kernel(aiml_file_name):
+    kernel = aiml.Kernel()
+    if not os.path.isfile(aiml_file_name):
+        raise FileNotFoundError(f"AIML file not found: {aiml_file_name}")
+    brain_file = "bot_brain.brn"
+    if os.path.isfile(brain_file):
+        kernel.bootstrap(brainFile=brain_file)
+    else:
+        kernel.learn(aiml_file_name)
+        kernel.saveBrain(brain_file)
+    return kernel
+
+
+general_query_kernel = init_aiml_kernel("career_query.aiml")
+guided_dialogue_kernel = init_aiml_kernel("career_dialogue.aiml")
+
+
 #The connection part between the expert system and the robot-driven template based
 class CareerChatbot:
     def __init__(self, aiml_file="career_dialogue.aiml"):
@@ -214,64 +231,95 @@ class CareerChatbot:
         return bot_response
 
 
+class CombinedChatbot:
+    def __init__(self):
+        self.guided_chatbot = CareerChatbot("career_dialogue.aiml")
+        self.general_query_kernel = general_query_kernel
+        self.mode = "general_query"  # Initial mode
+
+    def process_aiml_formatting(self, text: str) -> str:
+        text = text.replace('_br_', '\n\n')
+        text = text.replace("_b_", "**")
+        text = text.replace("_i_", "*")
+        return text or "I'm not sure how to answer that. Try asking about careers, majors, or career preparation tips."
+
+    def get_response(self, user_input: str) -> str:
+        user_input_lower = user_input.strip().lower()
+
+        # Handle mode switching commands
+        if user_input_lower == "start planning":
+            self.mode = "guided_planning"
+            self.guided_chatbot.reset() # Ensure a fresh start for guided mode
+            return self.process_aiml_formatting(self.guided_chatbot.get_response(user_input)) # Initial prompt for guided mode
+        elif user_input_lower == "ask general":
+            self.mode = "general_query"
+            return self.process_aiml_formatting(self.general_query_kernel.respond("HELLO")) # Greet in general mode
+        elif user_input_lower == "start over" and self.mode == "guided_planning":
+            self.guided_chatbot.reset()
+            return self.process_aiml_formatting(self.guided_chatbot.get_response(user_input)) # Restart guided
+        elif user_input_lower == "cancel planning" and self.mode == "guided_planning":
+            self.mode = "general_query"
+            self.guided_chatbot.reset()
+            return "Career planning cancelled. You are now in general query mode. Type 'start planning' to begin a new plan or 'hello' to ask general questions."
+
+
+        if self.mode == "guided_planning":
+            return self.process_aiml_formatting(self.guided_chatbot.get_response(user_input))
+        else: # general_query mode
+            response = self.general_query_kernel.respond(user_input.strip().upper())
+            return self.process_aiml_formatting(response)
+
+    def reset_all(self):
+        self.guided_chatbot.reset()
+        self.mode = "general_query" # Reset to default mode
+        print("INFO: All chatbot states reset.")
+
+
+def respond(message: str, chat_history: list) -> tuple:
+    bot_response = combined_chatbot_instance.get_response(message)
+    chat_history.append((message, bot_response))
+    return chat_history, ""
 
 # 1. Create a unique instance of chatbot
-chatbot_instance = CareerChatbot()
+combined_chatbot_instance = CombinedChatbot()
 
-def process_ui_formatting(text: str) -> str:
-    return text.replace('_br_', '\n')# Convert line breaks in aiml to readable form
 
 # 2. Define the UI layout
 seafoam = Seafoam()
 with gr.Blocks(theme=seafoam) as demo:
+    # 加标题和描述
     gr.Markdown("## Xplore Career Chatbot")
-    gr.Markdown("This is **Xplore Career Chatbot**. Start your conversation below.")
+    gr.Markdown("This is **Xplore Career Chatbot**. You can ask questions about careers. Start by typing `hello` or `hi`.")
 
-    # Fix warning: Remove the bubble_full_width parameter
-    chatbot_ui = gr.Chatbot(label="Xplore Career Bot", height=500)
-
-    with gr.Row():
-        user_input = gr.Textbox(placeholder="Type your message here...", show_label=False, scale=4)
-        submit_button = gr.Button("Send", variant="primary", scale=1)
+    chatbot = gr.Chatbot(label="Xplore Career Bot")
 
     with gr.Row():
-        clear_button = gr.Button("Clear History", variant="secondary")
+        user_input = gr.Textbox(placeholder="Welcome to ask questions about career!", show_label=False)
+
+    with gr.Row(equal_height=True):
+        submit = gr.Button("Send", size="sm")
+        clear = gr.Button("Clear", size="sm")
+
+    with gr.Row():
+        gr.Markdown("**Examples:**")
+        example1 = gr.Button("CAREERS FOR AIT", size="sm")
+        example2 = gr.Button("START PLANNING", size="sm")
+        example3 = gr.Button("CV HELP", size="sm")
+
+    submit.click(respond, [user_input, chatbot], [chatbot, user_input])
+    clear.click(lambda: [], None, chatbot)
+
+    example1.click(lambda: "CAREERS FOR AIT", None, user_input)
+    example2.click(lambda: "START PLANNING", None, user_input)
+    example3.click(lambda: "CV HELP", None, user_input)
 
 
-    # 3. Define the response function of the UI
-    # In order to convert line breaks, the response function also needs to be adjusted accordingly
-    def respond(message, chat_history):
-        raw_response = chatbot_instance.get_response(message)
-        formatted_response = process_ui_formatting(raw_response)  # Call the processing function
-        chat_history.append((message, formatted_response))
-        return "", chat_history
+    def initial_load_combined():
+        combined_chatbot_instance.reset_all()
+        initial_message = combined_chatbot_instance.get_response("hello")
+        return [(None, initial_message)]
 
-
-    # 4. Define the clear function
-    def clear_and_reset():
-        chatbot_instance.reset()
-        return []
-
-
-    # 5. Binding UI Events
-    # #.then() allows us to link one event after another
-    # Here, after clear_and_reset, we call initial_load to display the welcome message
-    # In order to convert line breaks, the initial function also needs to be adjusted accordingly
-    def initial_load():
-        chatbot_instance.reset()
-        raw_initial_message = chatbot_instance.get_response("hello")
-        formatted_initial_message = process_ui_formatting(raw_initial_message)
-        return [[None, formatted_initial_message]]
-
-
-    submit_action = submit_button.click(respond, [user_input, chatbot_ui], [user_input, chatbot_ui], queue=False)
-    user_input.submit(respond, [user_input, chatbot_ui], [user_input, chatbot_ui], queue=False)
-
-    clear_button.click(clear_and_reset, None, chatbot_ui, queue=False).then(
-        initial_load, None, chatbot_ui
-    )
-
-    demo.load(initial_load, None, chatbot_ui)
+    demo.load(initial_load_combined, None, chatbot)
 
 if __name__ == "__main__":
     demo.launch()
