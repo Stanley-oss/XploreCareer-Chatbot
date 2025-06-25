@@ -4,14 +4,15 @@ from typing import List, Dict, Any
 
 # --- Step 1: Knowledge Base Ultimate Edition ---
 
-# List of 10 core competencies
+
 ABILITY_COLUMNS = [
     'Mathematical Skills', 'Programming Ability', 'Creativity', 'Analytical Skills', 'Communication Skills',
     'Leadership Skills', 'Business Acumen', 'Problem-Solving', 'Teamwork', 'Adaptability'
 ]
 
+# ============== Category A: Professional Rules ==============
 RULE_BASE = [
-    # ============== Category A: Professional Rules ==============
+    
     {'type': 'Major', 'conditions': ['Computer Science and Technology', 'CST'],
      'effects': {'Programming Ability': 0.5, 'Problem-Solving': 0.4, 'Analytical Skills': 0.4,
                  'Mathematical Skills': 0.3}},
@@ -188,7 +189,6 @@ RULE_BASE = [
 
 
 # --- Step 2: Introduce the smart user profile class with ‘diminishing marginal returns’ ---
-
 class UserProfile:
     def __init__(self, major: str, interests: List[str], mbti: str, challenges: List[str]):
         self.major = major
@@ -218,7 +218,6 @@ class UserProfile:
 
 
 # --- Step 3: Reasoning machine and main function (remains unchanged) ---
-
 def inference_engine(user_profile: UserProfile, rules: List[Dict[str, Any]]):
 
     for rule in rules:

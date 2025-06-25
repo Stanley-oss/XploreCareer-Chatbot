@@ -9,6 +9,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
+#ui设计
 class Seafoam(Base):
     def __init__(
             self,
@@ -62,9 +63,10 @@ class Seafoam(Base):
 
 def respond(message: str, chat_history: list) -> tuple:
     # Get bot response and append to history as dicts
-    bot_response = combined_chatbot_instance.get_response(message)
+    bot_response_before = combined_chatbot_instance.get_response(message)
+    #TODO 看是否需要调用api统一输出
     chat_history.append({"role": "user", "content": message})
-    chat_history.append({"role": "assistant", "content": bot_response})
+    chat_history.append({"role": "assistant", "content": bot_response_before})
     return chat_history, ""  # clear input box
 
 

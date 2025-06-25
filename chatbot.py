@@ -2,6 +2,7 @@ import aiml
 import os
 import io
 from contextlib import redirect_stdout
+import requests
 
 from expert_system import UserProfile, inference_engine, RULE_BASE
 
@@ -17,6 +18,8 @@ def init_aiml_kernel(aiml_file_name):
         kernel.saveBrain(brain_file)
     return kernel
 
+
+        
 #The connection part between the expert system and the robot-driven template based
 class CareerChatbot:
     def __init__(self, aiml_file="career_dialogue.aiml"):
@@ -48,6 +51,8 @@ class CareerChatbot:
 
         self.reset()
 
+    
+
     def reset(self):
 
         self.conversation_state = 0
@@ -70,7 +75,6 @@ class CareerChatbot:
 
     def get_response(self, user_input: str) -> str:
 
-        #From the original connection part app.py, which is the only part of the UI that needs to be mobilized
         bot_response = ""
         user_input = user_input.strip()
 
@@ -185,21 +189,26 @@ class CombinedChatbot:
     def get_response(self, user_input: str) -> str:
         user_input_lower = user_input.strip().lower()
 
-        # Handle mode switching commands
+        # PART1 Planning mode
         if user_input_lower == "start planning":
             self.mode = "guided_planning"
-            self.guided_chatbot.reset() # Ensure a fresh start for guided mode
-            return self.process_aiml_formatting(self.guided_chatbot.get_response(user_input)) # Initial prompt for guided mode
-        elif user_input_lower == "ask general":
-            self.mode = "general_query"
-            return self.process_aiml_formatting(self.general_query_kernel.respond("HELLO")) # Greet in general mode
-        elif user_input_lower == "start over" and self.mode == "guided_planning":
+            self.guided_chatbot.reset() # 启动guide
+            return self.process_aiml_formatting(self.guided_chatbot.get_response(user_input)) 
+       
+        elif self.mode == "guided_planning" and user_input_lower == "start over": # 在guide中得到重启信号
             self.guided_chatbot.reset()
             return self.process_aiml_formatting(self.guided_chatbot.get_response(user_input)) # Restart guided
-        elif user_input_lower == "cancel planning" and self.mode == "guided_planning":
+        
+        elif self.mode == "guided_planning" and user_input_lower == "cancel planning" : #从guide转到general
             self.mode = "general_query"
             self.guided_chatbot.reset()
             return "Career planning cancelled. You are now in general query mode. Type 'start planning' to begin a new plan or 'hello' to ask general questions."
+        
+        # PART2 Ask general
+        elif user_input_lower == "ask general":
+            self.mode = "general_query"
+            return self.process_aiml_formatting(self.general_query_kernel.respond("HELLO")) # Greet in general mode
+        
 
 
         if self.mode == "guided_planning":
