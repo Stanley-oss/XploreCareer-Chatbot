@@ -1,0 +1,989 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+
+<category>
+    <pattern>GREETING</pattern>
+    <template>
+Hello! I'm your career planning assistant._br_
+Ready to start your career exploration journey?
+    </template>
+</category>
+
+<category>
+    <pattern>STARTPLANNING</pattern>
+    <template>
+Great! To get to know you better, I'll ask a few questions._br_
+First, what is your full major?
+    </template>
+</category>
+
+<category>
+    <pattern>ASKINTERESTS</pattern>
+    <template>
+Okay, your major is {major}._br_
+Next, what are your hobbies and interests? Please separate multiple interests with a comma.
+    </template>
+</category>
+
+<category>
+    <pattern>ASKMBTI</pattern>
+    <template>
+Received! Your interests are {interests}._br_
+Now, do you know your 4-letter MBTI personality type? (e.g., INTJ, ENFP)._br_
+If not, just say "I don't know".
+    </template>
+</category>
+
+<category>
+    <pattern>ASKCHALLENGES</pattern>
+    <template>
+Okay, your MBTI is {mbti}._br_
+Last question: please look at the list below and enter the numbers (1-3 choices) for situations you find challenging. Separate numbers with a comma._br_
+1. dislikes group projects_br_
+2. dislikes public speaking_br_
+3. hard to come up with new ideas_br_
+4. dislikes complex data or math_br_
+5. prefers clear instructions_br_
+6. loses the big picture with too much info_br_
+7. not interested in business operations_br_
+8. anxious under pressure_br_
+9. finds it difficult to persuade others_br_
+10. prefers to work independently_br_
+11. tends to procrastinate_br_
+12. dislikes interpersonal conflicts_br_
+13. gets bored by routine tasks_br_
+14. dislikes networking_br_
+15. tends to be a perfectionist_br_
+16. finds it hard to maintain focus_br_
+17. not good at reporting work_br_
+18. struggles with theoretical concepts_br_
+19. hesitates when making decisions
+    </template>
+</category>
+
+<category>
+    <pattern>ASKCHALLENGESSKIPMBTI</pattern>
+    <template>
+That's okay, many people don't. If you're curious, you can take a free test at: https://www.16personalities.com/_br_
+For now, we can skip this part._br_
+Last question: please look at the list below and enter the numbers (1-3 choices) for situations you find challenging. Separate numbers with a comma._br_
+1. dislikes group projects_br_
+2. dislikes public speaking_br_
+3. hard to come up with new ideas_br_
+4. dislikes complex data or math_br_
+5. prefers clear instructions_br_
+6. loses the big picture with too much info_br_
+7. not interested in business operations_br_
+8. anxious under pressure_br_
+9. finds it difficult to persuade others_br_
+10. prefers to work independently_br_
+11. tends to procrastinate_br_
+12. dislikes interpersonal conflicts_br_
+13. gets bored by routine tasks_br_
+14. dislikes networking_br_
+15. tends to be a perfectionist_br_
+16. finds it hard to maintain focus_br_
+17. not good at reporting work_br_
+18. struggles with theoretical concepts_br_
+19. hesitates when making decisions
+    </template>
+</category>
+
+<category>
+    <pattern>CONFIRMINFO</pattern>
+    <template>
+Alright, all the information has been collected. Let's confirm one last time:_br_
+
+- Your Major: {major}_br_
+- Your Interests: {interests}_br_
+- Your MBTI: {mbti}_br_
+- Your Chosen Challenges (Numbers): {challenges_input}_br_
+
+If everything is correct, please say "confirm". If you need to make changes, please say "start over".
+    </template>
+</category>
+
+<category>
+    <pattern>FINALRESPONSE</pattern>
+    <template>
+Great! I will now send this information to expert system for analysis. _br_
+Please wait, the results will be ready shortly...
+    </template>
+</category>
+
+</aiml>
+
+<category>
+    <pattern>HELLO</pattern>
+    <template>
+    Hello! I'm the Career Recommendation Chatbot for XMUM students._br_
+    You can ask about:_br_
+    - Majors and departments (e.g., "What majors are in Informatics")_br_
+    - Career options by major (e.g., "What careers for software engineering")_br_
+    - Detailed career information (e.g., "Details about backend developer")_br_
+    - Cross-disciplinary options (e.g., "Careers for art and science")_br_
+    - Career preparation (e.g., "How to prepare a resume")_br_
+    - Career Services Office information
+    </template>
+</category>
+<category>
+    <pattern>HI</pattern>
+    <template><srai>HELLO</srai></template>
+</category>
+
+<category>
+    <pattern>WHAT MAJORS ARE IN *</pattern>
+    <template>
+        <think><set name="department"><star/></set></think>
+        <condition name="department">
+            <li value="INFORMATICS">School of Informatics majors:_br_Computer Science_br_Software Engineering_br_Artificial Intelligence_br_Data Science_br_Cybersecurity_br_Digital Media Technology</li>
+            <li value="ECONOMICS AND MANAGEMENT">School of Economics &amp; Management majors:_br_E-commerce_br_International Business_br_Accounting_br_Finance</li>
+            <li value="HUMANITIES AND COMMUNICATION">School of Humanities &amp; Communication majors:_br_Journalism_br_Advertising_br_Chinese Language &amp; Literature_br_English</li>
+            <li value="TRADITIONAL CHINESE MEDICINE">School of TCM majors:_br_Chinese Medicine</li>
+            <li value="ENGINEERING">School of Engineering majors:_br_Electronic Information Engineering_br_Chemical Engineering_br_New Energy Science</li>
+            <li value="MARINE AND EARTH SCIENCES">School of Marine &amp; Earth Sciences majors:_br_Marine Science_br_Marine Technology</li>
+            <li value="MATHEMATICAL SCIENCES">School of Mathematical Sciences majors:_br_Mathematics_br_Physics</li>
+            <li>Please specify a department, for example: INFORMATICS, ENGINEERING, or ECONOMICS AND MANAGEMENT.</li>
+        </condition>
+    </template>
+</category>
+
+<!-- CAREERS BY MAJOR -->
+<category>
+    <pattern>CAREERS FOR *</pattern>
+<template>
+    <think><set name="major"><star/></set></think>
+    <condition name="major">
+        <!-- School of Informatics -->
+        <li value="COMPUTER SCIENCE">
+            _b_Computer Science careers include:_b_ _br_
+            Backend Developer _br_
+            Frontend Developer _br_
+            Full-Stack Developer _br_
+            Mobile App Developer _br_
+            DevOps Engineer _br_
+            Game Programmer _br_
+            Embedded Systems Engineer _br_
+            Cloud Solutions Architect _br_
+            Database Administrator
+        </li>
+        <li value="CST"><srai>WHAT CAREERS FOR COMPUTER SCIENCE</srai></li>
+        <li value="SOFTWARE ENGINEERING">
+            _b_Software Engineering careers include:_b_ _br_
+            Backend Developer _br_
+            Frontend Developer _br_
+            Full-Stack Developer _br_
+            Mobile App Developer _br_
+            DevOps Engineer _br_
+            SDET _br_
+            Game Programmer _br_
+            Cloud Solutions Architect
+        </li>
+        <li value="SE"><srai>WHAT CAREERS FOR SOFTWARE ENGINEERING</srai></li>
+        <li value="ARTIFICIAL INTELLIGENCE">
+            _b_AI careers include:_b_ _br_
+            Machine Learning Engineer _br_
+            AI Research Scientist _br_
+            NLP Engineer _br_
+            Computer Vision Engineer _br_
+            Data Scientist
+        </li>
+        <li value="AIT"><srai>WHAT CAREERS FOR ARTIFICIAL INTELLIGENCE</srai></li>
+        <li value="DATA SCIENCE">
+            _b_Data Science careers include:_b_ _br_
+            Data Analyst _br_
+            Data Scientist _br_
+            Data Engineer _br_
+            Machine Learning Engineer _br_
+            BI Analyst
+        </li>
+        <li value="CYBERSECURITY">
+            _b_Cybersecurity careers include:_b_ _br_
+            Penetration Tester _br_
+            Security Analyst _br_
+            Security Architect _br_
+            Digital Forensics Analyst
+        </li>
+        <li value="DIGITAL MEDIA TECHNOLOGY">
+            _b_Digital Media careers include:_b_ _br_
+            UI Designer _br_
+            UX Designer _br_
+            UX Researcher _br_
+            3D Modeler _br_
+            VR/AR Developer _br_
+            Game Designer _br_
+            Motion Graphics Designer _br_
+            Technical Artist
+        </li>
+        <!-- Economics & Management -->
+        <li value="E-COMMERCE">
+            _b_E-commerce careers include:_b_ _br_
+            E-commerce Operations Specialist _br_
+            Digital Marketing Manager _br_
+            SEO/SEM Specialist _br_
+            Social Media Manager _br_
+            Content Marketing Strategist _br_
+            BI Analyst
+        </li>
+        <li value="INTERNATIONAL BUSINESS">
+            _b_International Business careers include:_b_ _br_
+            Supply Chain Analyst _br_
+            International Trade Specialist _br_
+            Business Development Manager _br_
+            Management Consultant _br_
+            Market Research Analyst
+        </li>
+        <li value="ACCOUNTING">
+            _b_Accounting careers include:_b_ _br_
+            Auditor _br_
+            Management Accountant _br_
+            Tax Consultant _br_
+            Forensic Accountant _br_
+            Internal Auditor _br_
+            Financial Controller
+        </li>
+        <li value="FINANCE">
+            _b_Finance careers include:_b_ _br_
+            Investment Banking Analyst _br_
+            Risk Manager _br_
+            Wealth Management Advisor _br_
+            Credit Analyst _br_
+            Quantitative Analyst _br_
+            Compliance Officer
+        </li>
+        <!-- Humanities & Communication -->
+        <li value="JOURNALISM">
+            _b_Journalism careers include:_b_ _br_
+            Broadcast Journalist _br_
+            Digital Content Editor _br_
+            Public Relations Specialist _br_
+            Corporate Communications Manager _br_
+            Event Manager
+        </li>
+        <li value="ADVERTISING">
+            _b_Advertising careers include:_b_ _br_
+            Creative Copywriter _br_
+            Art Director _br_
+            Digital Marketing Manager _br_
+            Social Media Manager _br_
+            Content Marketing Strategist _br_
+            Media Planner
+        </li>
+        <li value="CHINESE LANGUAGE">
+            _b_Chinese Language careers include:_b_ _br_
+            Translator _br_
+            Interpreter _br_
+            Publishing Editor _br_
+            Localization Specialist _br_
+            Chinese Language Teacher
+        </li>
+        <li value="ENGLISH">
+            _b_English careers include:_b_ _br_
+            Technical Writer _br_
+            Translator _br_
+            Interpreter _br_
+            ESL Teacher _br_
+            Digital Content Editor _br_
+            Content Marketing Strategist
+        </li>
+        <!-- Traditional Chinese Medicine -->
+        <li value="CHINESE MEDICINE">
+            _b_Chinese Medicine careers include:_b_ _br_
+            Acupuncturist _br_
+            Herbalist _br_
+            TCM Health Consultant _br_
+            TCM Researcher
+        </li>
+        <!-- Engineering -->
+        <li value="ELECTRONIC ENGINEERING">
+            _b_Electronic Engineering careers include:_b_ _br_
+            Electronics Hardware Engineer _br_
+            Telecommunications Engineer _br_
+            Control Systems Engineer _br_
+            Semiconductor Engineer
+        </li>
+        <li value="CHEMICAL ENGINEERING">
+            _b_Chemical Engineering careers include:_b_ _br_
+            Process Engineer _br_
+            Product Development Scientist _br_
+            Safety Engineer _br_
+            Materials Engineer
+        </li>
+        <li value="NEW ENERGY">
+            _b_New Energy careers include:_b_ _br_
+            Solar Energy Engineer _br_
+            Energy Analyst _br_
+            Materials Engineer
+        </li>
+        <!-- Marine & Earth Sciences -->
+        <li value="MARINE SCIENCE">
+            _b_Marine Science careers include:_b_ _br_
+            Physical Oceanographer _br_
+            Marine Chemist _br_
+            Marine Biologist _br_
+            Aquaculture Manager _br_
+            Marine Conservationist _br_
+            Marine Policy Advisor
+        </li>
+        <li value="MARINE TECHNOLOGY">
+            _b_Marine Technology careers include:_b_ _br_
+            Hydrographic Surveyor _br_
+            Marine Equipment Engineer _br_
+            Underwater Robotics Specialist
+        </li>
+        <!-- Mathematical Sciences -->
+        <li value="MATHEMATICS">
+            _b_Mathematics careers include:_b_ _br_
+            Actuary _br_
+            Statistician _br_
+            Operations Research Analyst _br_
+            Quantitative Analyst _br_
+            Data Scientist
+        </li>
+        <li value="PHYSICS">
+            _b_Physics careers include:_b_ _br_
+            Medical Physicist _br_
+            Astrophysicist _br_
+            Semiconductor Engineer _br_
+            Materials Engineer _br_
+            Quantitative Analyst
+        </li>
+        <li>
+        I don't recognize that major. Please try again. _br_
+        Examples: COMPUTER SCIENCE, INTERNATIONAL BUSINESS, ACCOUNTING, MARINE SCIENCE. _br_
+        (Tip: Use the exact program name as listed in the catalog.)
+        </li>
+    </condition>
+</template>
+</category>
+<category>
+    <pattern>WHAT CAREERS FOR *</pattern>
+    <template><srai>CAREERS FOR <star/></srai></template>
+</category>
+
+<!-- DETAILED CAREER INFORMATION -->
+<category>
+    <pattern>DETAILS ABOUT *</pattern>
+    <template>
+        <think><set name="career"><star/></set></think>
+        <condition name="career">
+            <!-- School of Informatics Careers -->
+            <li value="BACKEND DEVELOPER">
+                _b_Backend Developer Details:_b_
+                _br__b_Role:_b_ As the architects of the digital world, backend developers design, build, and maintain all server-side logic that users don't see. They handle data storage, ensure smooth server-frontend communication, and create robust APIs.
+                _br__b_Key Skills:_b_ API development, database optimization, system security, Python, Java, Go.
+                _br__b_Matching Majors:_b_ Software Engineering, Computer Science.
+                _br__b_Core Courses:_b_ Data Structures, Algorithm Design, Database Systems, Operating Systems, Computer Networks.
+                _br__b_Career Path:_b_ Junior Backend Engineer → Senior Backend Engineer → System Architect / Tech Lead.
+                _br__b_Industries:_b_ Tech companies, Fintech, E-commerce.
+                _br__b_Salary:_b_ RM 4,000 - RM 15,000/month.
+            </li>
+            <li value="FRONTEND DEVELOPER">
+                _b_Frontend Developer Details:_b_
+                _br__b_Role:_b_ Frontend developers are the direct creators of a digital product's look and feel. They translate visual blueprints from designers into dynamic, interactive interfaces that users can click, scroll, and engage with.
+                _br__b_Key Skills:_b_ HTML, CSS, JavaScript, React, Vue, Angular, UI/UX principles.
+                _br__b_Matching Majors:_b_ Software Engineering, Computer Science, Digital Media Technology.
+                _br__b_Core Courses:_b_ Web Application Development, Human-Computer Interaction, JavaScript Programming, Mobile Application Development.
+                _br__b_Career Path:_b_ Junior Frontend Engineer → Senior Frontend Engineer → Frontend Architect / UI Engineering Lead.
+                _br__b_Industries:_b_ Tech, E-commerce, Media, any company with a web presence.
+            </li>
+            <li value="FULL STACK DEVELOPER">
+                _b_Full-Stack Developer Details:_b_
+                _br__b_Role:_b_ Often called the "Swiss Army Knife" of the tech world, full-stack developers master both frontend (user interface) and backend (server and database) technologies. They can independently build and deploy a complete web application from scratch.
+                _br__b_Key Skills:_b_ Both frontend and backend technologies, database management, DevOps principles.
+                _br__b_Matching Majors:_b_ Software Engineering, Computer Science.
+                _br__b_Core Courses:_b_ Web Application Development, Database Systems, Software Architecture, Cloud Computing.
+                _br__b_Career Path:_b_ Full-Stack Engineer → Senior Full-Stack Engineer → Solutions Architect / Technical Co-founder.
+            </li>
+            <li value="MOBILE APP DEVELOPER">
+                _b_Mobile App Developer Details:_b_
+                _br__b_Role:_b_ In an age where everyone has a smartphone, mobile app developers are key players connecting users to digital services. They specialize in designing, developing, and optimizing apps for iOS (using Swift/Objective-C) or Android (using Kotlin/Java).
+                _br__b_Key Skills:_b_ Swift/Kotlin, mobile UI/UX, API integration, performance optimization.
+                _br__b_Matching Majors:_b_ Software Engineering, Computer Science.
+                _br__b_Core Courses:_b_ Mobile Application Development, Object-Oriented Programming, Data Structures, Human-Computer Interaction.
+                _br__b_Career Path:_b_ Junior App Developer → Senior App Developer → Mobile Tech Lead.
+            </li>
+            <li value="DEVOPS ENGINEER">
+                _b_DevOps Engineer Details:_b_
+                _br__b_Role:_b_ DevOps engineers revolutionize the efficiency and quality of software development. They break down the barriers between Development (Dev) and Operations (Ops) by building automated testing, continuous integration, and continuous deployment (CI/CD) pipelines.
+                _br__b_Key Skills:_b_ CI/CD tools (Jenkins, GitLab), cloud platforms (AWS, Azure), containerization (Docker, Kubernetes), scripting.
+                _br__b_Matching Majors:_b_ Software Engineering, Computer Science, Cybersecurity.
+                _br__b_Core Courses:_b_ Operating Systems, Computer Networks, Cloud Computing, Scripting Languages (Python/Bash).
+                _br__b_Career Path:_b_ DevOps Engineer → Senior DevOps Engineer → DevOps Architect.
+            </li>
+            <li value="SOFTWARE DEVELOPMENT ENGINEER IN TEST">
+                _b_SDET Details:_b_
+                _br__b_Role:_b_ SDETs are the ultimate guardians of software quality, but their weapon of choice is code. Unlike traditional testers, they write automated test scripts, build testing frameworks, and develop tools to efficiently and comprehensively detect software defects.
+                _br__b_Key Skills:_b_ Automation testing frameworks (Selenium, Cypress), programming, test planning.
+                _br__b_Matching Majors:_b_ Software Engineering, Computer Science.
+                _br__b_Core Courses:_b_ Principles of Software Engineering, Software Testing and Quality Assurance, Programming, Database Systems.
+                _br__b_Career Path:_b_ Test Engineer → Automation Test Developer → Test Manager / QA Director.
+            </li>
+            <li value="GAME PROGRAMMER">
+                _b_Game Programmer Details:_b_
+                _br__b_Role:_b_ Game programmers are the magicians who turn imaginative game designs into reality. They write the code for everything in the game world, including the graphics engine, physics simulation, character AI, and network synchronization.
+                _br__b_Key Skills:_b_ C++, game engines (Unity, Unreal), computer graphics, physics, linear algebra.
+                _br__b_Matching Majors:_b_ Software Engineering, Computer Science, Digital Media Technology.
+                _br__b_Core Courses:_b_ Programming (C++), Algorithm Design, Computer Graphics, Fundamentals of Game Development.
+                _br__b_Career Path:_b_ Junior Game Programmer → Engine/Graphics Programmer → Lead Programmer.
+            </li>
+            <li value="EMBEDDED SYSTEMS ENGINEER">
+                _b_Embedded Systems Engineer Details:_b_
+                _br__b_Role:_b_ Embedded engineers are the cornerstone of the Internet of Things (IoT) world. They design and develop specialized software and hardware systems within various smart devices (like smart home appliances, automotive electronics, and wearables).
+                _br__b_Key Skills:_b_ C/C++, microcontrollers, real-time operating systems (RTOS), hardware design.
+                _br__b_Matching Majors:_b_ Electronic Information Engineering, Computer Science.
+                _br__b_Core Courses:_b_ Microprocessor and Microcontroller, Operating Systems, C/C++ Programming, Digital Logic Design.
+                _br__b_Career Path:_b_ Embedded Engineer → Firmware Engineer → Embedded Systems Architect.
+            </li>
+            <li value="CLOUD SOLUTIONS ARCHITECT">
+                _b_Cloud Solutions Architect Details:_b_
+                _br__b_Role:_b_ The lead designer for a company's cloud computing strategy. They master platforms like AWS and Azure to design secure, reliable, and cost-effective cloud IT architectures based on business needs.
+                _br__b_Key Skills:_b_ AWS/Azure/GCP, security architecture, network design, cost optimization, automation.
+                _br__b_Matching Majors:_b_ Software Engineering, Computer Science, Cybersecurity.
+                _br__b_Core Courses:_b_ Cloud Computing, Computer Networks, Database Systems, Information Security.
+                _br__b_Career Path:_b_ Cloud Engineer → Cloud Architect → Chief Technology Officer (CTO).
+                _br__b_Industries:_b_ Tech, Finance, Enterprise Solutions.
+                _br__b_Salary:_b_ RM 12,000 - RM 25,000/month.
+            </li>
+            <li value="MACHINE LEARNING ENGINEER">
+                _b_Machine Learning Engineer Details:_b_
+                _br__b_Role:_b_ ML Engineers bridge the gap between AI research and practical application. They take the algorithmic models validated by data scientists, engineer and optimize them, and deploy them into production environments to handle massive real-time data.
+                _br__b_Key Skills:_b_ Python, TensorFlow/PyTorch, MLOps, software engineering principles.
+                _br__b_Matching Majors:_b_ Artificial Intelligence, Data Science, Software Engineering.
+                _br__b_Core Courses:_b_ Machine Learning, Deep Learning, Python Programming, Software Engineering, Big Data Management.
+                _br__b_Career Path:_b_ ML Engineer → Senior ML Engineer → AI Tech Lead.
+            </li>
+            <li value="AI RESEARCH SCIENTIST">
+                _b_AI Research Scientist Details:_b_
+                _br__b_Role:_b_ Pioneers in exploring new AI frontiers, inventing novel algorithms or models. Often work in top tech firms or academia, requiring top-tier math, coding skills, and curiosity.
+                _br__b_Key Skills:_b_ Machine learning theory, deep learning, advanced mathematics, Python, research methodology.
+                _br__b_Matching Majors:_b_ Artificial Intelligence, Computer Science, Data Science (Master’s/PhD usually required).
+                _br__b_Core Courses:_b_ Advanced Algorithms, Deep Learning Theory, Mathematical Modeling, Advanced Statistics.
+                _br__b_Career Path:_b_ Research Assistant → Research Scientist → Chief Scientist.
+            </li>
+            <li value="NLP ENGINEER">
+                _b_NLP Engineer Details:_b_
+                _br__b_Role:_b_ Builds systems for machines to understand/generate human language. Combines linguistics, CS, and ML.
+                _br__b_Key Skills:_b_ NLP toolkits, machine learning, deep learning, Python, linguistics basics.
+                _br__b_Matching Majors:_b_ Artificial Intelligence, Computer Science.
+                _br__b_Core Courses:_b_ Natural Language Processing, Machine Learning, Deep Learning, Linguistics.
+                _br__b_Career Path:_b_ NLP Engineer → NLP Expert → Conversational AI Architect.
+            </li>
+            <li value="COMPUTER VISION ENGINEER">
+                _b_Computer Vision Engineer Details:_b_
+                _br__b_Role:_b_ Develops algorithms to give machines the ability to “see” (face/object detection, AR effects, etc.).
+                _br__b_Key Skills:_b_ Computer vision algorithms, deep learning, Python, OpenCV, linear algebra.
+                _br__b_Matching Majors:_b_ Artificial Intelligence, Digital Media Technology, Computer Science.
+                _br__b_Core Courses:_b_ Computer Vision, Digital Image Processing, Deep Learning, Linear Algebra.
+                _br__b_Career Path:_b_ CV Engineer → Senior CV Engineer → Vision Tech Lead.
+            </li>
+            <li value="DATA ANALYST">
+                _b_Data Analyst Details:_b_
+                _br__b_Role:_b_ The data detective — cleans, analyzes, visualizes data for clear insights to guide decisions.
+                _br__b_Key Skills:_b_ SQL, Python, statistics, data visualization, BI tools.
+                _br__b_Matching Majors:_b_ Data Science, E-commerce, Mathematics.
+                _br__b_Core Courses:_b_ Statistics, Python Programming, Database Systems, Data Visualization, Business Intelligence.
+                _br__b_Career Path:_b_ Data Analyst → Senior Data Analyst → Data Analytics Manager.
+            </li>
+            <li value="DATA SCIENTIST">
+                _b_Data Scientist Details:_b_
+                _br__b_Role:_b_ Mines data for business insights, builds predictive models.
+                _br__b_Key Skills:_b_ Machine learning, statistics, Python, big data tools.
+                _br__b_Matching Majors:_b_ Data Science, Artificial Intelligence.
+                _br__b_Core Courses:_b_ Machine Learning, Statistics, Algorithm Design, Big Data Management.
+                _br__b_Career Path:_b_ Data Scientist → Senior Data Scientist → Chief Data Scientist.
+            </li>
+            <li value="DATA ENGINEER">
+                _b_Data Engineer Details:_b_
+                _br__b_Role:_b_ Designs and maintains data pipelines and warehouses to feed analytics and data science.
+                _br__b_Key Skills:_b_ Big data frameworks, SQL, data warehousing, cloud platforms.
+                _br__b_Matching Majors:_b_ Data Science, Software Engineering.
+                _br__b_Core Courses:_b_ Big Data Management, Database Systems, Cloud Computing, Software Engineering.
+                _br__b_Career Path:_b_ Data Engineer → Big Data Architect → Data Platform Director.
+            </li>
+            <li value="CYBERSECURITY ANALYST">
+                _b_Cybersecurity Analyst Details:_b_
+                _br__b_Role:_b_ The frontline sentinel of digital defense. Works in a Security Operations Center, monitoring network traffic and logs 24/7, analyzing threats, and launching rapid incident responses to minimize damage.
+                _br__b_Key Skills:_b_ Network security, information security, incident response, digital forensics, security tools.
+                _br__b_Matching Majors:_b_ Cybersecurity.
+                _br__b_Core Courses:_b_ Information Security, Network Security, Incident Response, Digital Forensics.
+                _br__b_Career Path:_b_ Junior Security Analyst → Senior Security Analyst → SOC Manager.
+            </li>
+            <li value="PENETRATION TESTER">
+            _b_Penetration Tester / Ethical Hacker Details:_b_
+            _br__b_Role:_b_ The "white hat" hacker. Authorized by companies to think and act like a malicious hacker in order to identify and help fix security vulnerabilities before real attackers can exploit them. Protects digital assets by simulating cyberattacks on websites, apps, and networks.
+            _br__b_Key Skills:_b_ Penetration testing, ethical hacking, network security, web security, cryptography.
+            _br__b_Matching Majors:_b_ Cybersecurity.
+            _br__b_Core Courses:_b_ Ethical Hacking and Penetration Testing, Network Security, Web Security, Cryptography.
+            _br__b_Career Path:_b_ Penetration Tester → Senior Penetration Tester → Security Consultant.
+            </li>
+            <li value="TECH PRODUCT MANAGER">
+                _b_Tech Product Manager Details:_b_
+                _br__b_Role:_b_ The "CEO of the product". Defines product vision, researches user needs and market competition, writes PRD, and leads the team to deliver. Acts as the bridge between users, technology, and business.
+                _br__b_Key Skills:_b_ Product visioning, user research, project management, PRD writing, cross-functional leadership.
+                _br__b_Matching Majors:_b_ Any School of Information major combined with business knowledge.
+                _br__b_Core Courses:_b_ Human-Computer Interaction, Software Engineering, Marketing Principles, Data Analysis.
+            </li>
+            <li value="USER INTERFACE DESIGNER">
+                _b_User Interface Designer Details:_b_
+                _br__b_Role:_b_ The “stylist” of digital products. Designs every icon, button, color palette, and font layout to align with brand image while ensuring visual appeal and usability.
+                _br__b_Key Skills:_b_ Visual communication, graphic design tools(Photoshop, Figma), typography, color theory.
+                _br__b_Matching Majors:_b_ Digital Media Technology, Advertising.
+                _br__b_Core Courses:_b_ Visual Communication, Computer-Aided Design(Photoshop, Figma), Typography, Digital Imaging.
+                _br__b_Career Path:_b_ UI Designer → Senior UI Designer → Visual Design Lead.
+            </li>
+            <li value="USER EXPERIENCE DESIGNER">
+                _b_User Experience Designer Details:_b_
+                _br__b_Role:_b_ The "architect of user experience". Designs information architecture, user flows, and prototypes to ensure ease of use, efficiency, and satisfaction.
+                _br__b_Key Skills:_b_ UX research, wireframing, prototyping, usability testing.
+                _br__b_Matching Majors:_b_ Digital Media Technology.
+                _br__b_Core Courses:_b_ Human-Computer Interaction, User Experience Design, Interaction Design, Psychology of Design (elective).
+                _br__b_Career Path:_b_ UX Designer → Senior UX Designer → UX Strategist/Lead.
+            </li>
+            <li value="3D MODELER">
+                _b_3D Modeler Details:_b_
+                _br__b_Role:_b_ The "sculptor" of virtual worlds. Turns 2D concept art into 3D models for characters, props, vehicles, or buildings using professional 3D software.
+                _br__b_Key Skills:_b_ 3D modeling, texturing, shading, rendering.
+                _br__b_Matching Majors:_b_ Digital Media Technology.
+                _br__b_Core Courses:_b_ 3D Animation, Digital Modeling and Rendering, Texturing and Shading.
+                _br__b_Career Path:_b_ 3D Modeler → Character/Environment Artist → Art Director.
+            </li>
+            <li value="GAME DESIGNER">
+                _b_Game Designer Details:_b_
+                _br__b_Role:_b_ The "master designer" of game projects. Designs core gameplay, world-building, story, levels, balance, and player progression.
+                _br__b_Key Skills:_b_ Game mechanics design, storytelling, level design, game scripting.
+                _br__b_Matching Majors:_b_ Digital Media Technology.
+                _br__b_Core Courses:_b_ Game Design and Development, Level Design, Scripting for Games, Psychology of Play.
+                _br__b_Career Path:_b_ Level Designer/System Designer → Lead Designer → Producer.
+            </li>
+            <li value="E-COMMERCE OPERATIONS SPECIALIST">
+                _b_E-commerce Operations Specialist Details:_b_
+                _br__b_Role:_b_ The “store manager” of online shops. Handles daily operations including product listing, page optimization, promotions, order processing, inventory management, and customer service. Requires familiarity with platform rules and basic data analysis skills to monitor sales performance.
+                _br__b_Key Skills:_b_ E-commerce platform operations, promotion planning, data analysis, customer service.
+                _br__b_Matching Majors:_b_ E-commerce, International Business.
+                _br__b_Core Courses:_b_ E-commerce, Digital Marketing, Supply Chain Management, Customer Relationship Management.
+                _br__b_Career Path:_b_ Operations Assistant → Operations Specialist → Store Manager/Operations Supervisor.
+            </li>
+            <li value="DIGITAL MARKETING MANAGER">
+                _b_Digital Marketing Manager Details:_b_
+                _br__b_Role:_b_ The “chief strategist” for online customer acquisition. Manages all digital channels (SEO/SEM, social media, content marketing, email marketing), formulates strategy and budget, and is accountable for ROI.
+                _br__b_Key Skills:_b_ Digital marketing strategy, analytics, budget management, campaign optimization.
+                _br__b_Matching Majors:_b_ E-commerce, Advertising.
+                _br__b_Core Courses:_b_ Digital Marketing, Marketing Analytics, Consumer Behavior, Integrated Marketing Communication.
+                _br__b_Career Path:_b_ Digital Marketing Executive → Digital Marketing Manager → Chief Marketing Officer (CMO).
+            </li>
+            <li value="SEO/SEM SPECIALIST">
+                _b_SEO/SEM Specialist Details:_b_
+                _br__b_Role:_b_ The “traffic wizard” of digital marketing. SEO experts optimize website content and technology to improve organic search rankings, while SEM experts manage paid ads to attract precise customer segments.
+                _br__b_Key Skills:_b_ SEO/SEM techniques, keyword research, ad campaign management, web analytics.
+                _br__b_Matching Majors:_b_ E-commerce, Advertising.
+                _br__b_Core Courses:_b_ Digital Marketing, Data Analytics, Web Analytics, Consumer Behavior.
+                _br__b_Career Path:_b_ SEO/SEM Specialist → Growth Manager → Digital Marketing Director.
+            </li>
+            <li value="AUDITOR">
+                _b_Auditor Details:_b_
+                _br__b_Role:_b_ The "economic police" of capital markets. Works independently to rigorously verify if financial reports of public companies fairly reflect their operations, safeguarding investors and market confidence.
+                _br__b_Key Skills:_b_ Auditing, financial reporting, ethics, regulatory compliance.
+                _br__b_Matching Majors:_b_ Accounting.
+                _br__b_Core Courses:_b_ Auditing and Assurance, Financial Accounting and Reporting, Taxation, Corporate Law.
+                _br__b_Career Path:_b_ Audit Assistant → Senior Auditor → Audit Manager → Partner.
+            </li>
+            <li value="TAX CONSULTANT">
+                _b_Tax Consultant Details:_b_
+                _br__b_Role:_b_ A tax law expert who helps individuals and businesses plan taxes legally and efficiently, minimizing tax burden and handling filings and audits.
+                _br__b_Key Skills:_b_ Tax planning, compliance, financial accounting, business law.
+                _br__b_Matching Majors:_b_ Accounting.
+                _br__b_Core Courses:_b_ Taxation, Advanced Taxation, Business Law, Financial Accounting.
+                _br__b_Career Path:_b_ Tax Assistant → Tax Consultant → Tax Manager → Tax Partner.
+            </li>
+            <li value="MANAGEMENT ACCOUNTANT">
+                _b_Management Accountant Details:_b_
+                _br__b_Role:_b_ The "financial advisor" within a company. Focuses on budgeting, cost analysis, and investment evaluation to support executive decisions.
+                _br__b_Key Skills:_b_ Cost analysis, budgeting, financial strategy, business decision support.
+                _br__b_Matching Majors:_b_ Accounting.
+                _br__b_Core Courses:_b_ Management Accounting, Financial Management, Cost Accounting, Strategic Management.
+                _br__b_Career Path:_b_ Accountant → Financial Analyst → Finance Manager → CFO.
+            </li>
+            <li value="INVESTMENT BANKING ANALYST">
+                _b_Investment Banking Analyst Details:_b_
+                _br__b_Role:_b_ Entry-level role at top investment banks. Conducts industry research, builds financial models, and prepares presentations for M&amp;A, IPOs, and capital transactions.
+                _br__b_Key Skills:_b_ Financial modeling, corporate finance, analytical thinking, presentation skills.
+                _br__b_Matching Majors:_b_ Finance, Accounting.
+                _br__b_Core Courses:_b_ Corporate Finance, Investment Analysis, Financial Modeling, Mergers and Acquisitions.
+                _br__b_Career Path:_b_ Analyst → Associate/Manager → VP → Managing Director (MD).
+            </li>
+            <li value="RISK MANAGER">
+                _b_Risk Manager Details:_b_
+                _br__b_Role:_b_ The "braking system" of financial institutions. Identifies, assesses, and manages risks like market, credit, or operational risks; designs strategies to mitigate them.
+                _br__b_Key Skills:_b_ Risk analysis, financial instruments, quantitative analysis, regulatory compliance.
+                _br__b_Matching Majors:_b_ Finance.
+                _br__b_Core Courses:_b_ Derivatives and Risk Management, Financial Econometrics, Investment Analysis, Statistics.
+                _br__b_Career Path:_b_ Risk Analyst → Risk Manager → Chief Risk Officer (CRO).
+            </li>
+            <li value="WEALTH MANAGEMENT ADVISOR">
+                _b_Wealth Management Advisor Details:_b_
+                _br__b_Role:_b_ The "private financial steward" for high-net-worth clients. Provides customized financial plans covering investments, tax optimization, retirement, and wealth transfer.
+                _br__b_Key Skills:_b_ Financial planning, portfolio management, client relationship, tax strategy.
+                _br__b_Matching Majors:_b_ Finance.
+                _br__b_Core Courses:_b_ Portfolio Management, Investment Analysis, Personal Financial Planning, Behavioral Finance.
+                _br__b_Career Path:_b_ Relationship Manager → Wealth Advisor → Private Banker.
+            </li>
+            <li value="QUANT">
+                _b_Quantitative Analyst Details:_b_
+                _br__b_Role:_b_ Uses advanced mathematics, statistics, and programming to design algorithmic trading strategies or price complex financial derivatives.
+                _br__b_Key Skills:_b_ Mathematical modeling, statistical analysis, programming (Python, C++), quantitative finance.
+                _br__b_Matching Majors:_b_ Mathematics and Applied Mathematics, Finance, Physics.
+                _br__b_Core Courses:_b_ Financial Mathematics, Stochastic Processes, Econometrics, Advanced Programming.
+                _br__b_Career Path:_b_ Quant Analyst → Senior Quant → Quantitative Portfolio Manager.
+            </li>
+            <li value="BROADCAST JOURNALIST">
+                _b_Broadcast Journalist Details:_b_
+                _br__b_Role:_b_ The storyteller and presenter of TV and radio news. Gathers, verifies, writes, and delivers news with clarity and impact for viewers and listeners.
+                _br__b_Key Skills:_b_ Reporting, script writing, on-camera presence, voice delivery.
+                _br__b_Matching Majors:_b_ Journalism.
+                _br__b_Core Courses:_b_ Broadcast Journalism, News Writing and Reporting, Media Law and Ethics, Voice and Diction.
+                _br__b_Career Path:_b_ Reporter → Anchor/Host → Producer.
+            </li>
+            <li value="DIGITAL CONTENT EDITOR">
+                _b_Digital Content Editor Details:_b_
+                _br__b_Role:_b_ The content manager of online media. Plans, writes, edits, and publishes content for websites, apps, and social media, leveraging SEO and analytics to maximize impact.
+                _br__b_Key Skills:_b_ Writing, editing, SEO, data analysis, content strategy.
+                _br__b_Matching Majors:_b_ Journalism, Advertising, English.
+                _br__b_Core Courses:_b_ Web Writing and Editing, Content Marketing, SEO Principles, Social Media Management.
+                _br__b_Career Path:_b_ Content Editor → Senior Editor → Content Manager/Chief Editor.
+            </li>
+            <li value="PUBLIC RELATIONS SPECIALIST">
+                _b_Public Relations Specialist Details:_b_
+                _br__b_Role:_b_ The "image ambassador" of an organization or brand. Manages media relations, PR campaigns, press releases, and social media to build a positive public image and handle crises.
+                _br__b_Key Skills:_b_ PR strategy, media relations, communication, crisis management.
+                _br__b_Matching Majors:_b_ Advertising, Journalism.
+                _br__b_Core Courses:_b_ Public Relations, Media Writing, Corporate Communication, Crisis Management.
+                _br__b_Career Path:_b_ PR Assistant → PR Specialist → PR Manager → PR Director.
+            </li>
+            <li value="CREATIVE COPYWRITER">
+                _b_Creative Copywriter Details:_b_
+                _br__b_Role:_b_ The "soul writer" of advertising. Crafts precise, moving, and insightful text to form the core of ads—from slogans to video scripts to viral social media posts—aimed at winning consumers' hearts and driving action.
+                _br__b_Key Skills:_b_ Copywriting, creative thinking, brand storytelling, consumer psychology.
+                _br__b_Matching Majors:_b_ Advertising, English, Chinese Language and Literature.
+                _br__b_Core Courses:_b_ Copywriting, Advertising Creativity, Brand Storytelling, Consumer Behavior.
+                _br__b_Career Path:_b_ Copywriter → Senior Copywriter → Creative Lead → Creative Director.
+            </li>
+            <li value="ART DIRECTOR">
+                _b_Art Director Details:_b_
+                _br__b_Role:_b_ The "visual commander" of advertising. Works with copywriters to transform ideas into compelling visual expressions, guiding designers, photographers, illustrators, and directors to deliver impactful and precise imagery.
+                _br__b_Key Skills:_b_ Visual design, art direction, creative leadership, communication.
+                _br__b_Matching Majors:_b_ Advertising, Digital Media Technology.
+                _br__b_Core Courses:_b_ Advertising Design, Visual Communication, Art Direction, Computer-Aided Design.
+                _br__b_Career Path:_b_ Designer → Art Director → Creative Lead → Creative Director.
+            </li>
+            <li value="TRANSLATOR">
+                _b_Translator Details:_b_
+                _br__b_Role:_b_ The "messenger" of cross-cultural written communication. Goes beyond word-for-word translation to convey the true meaning, context, and style in the target language for diverse materials from literature to legal contracts.
+                _br__b_Key Skills:_b_ Bilingual proficiency, cultural understanding, writing, editing.
+                _br__b_Matching Majors:_b_ English, Chinese Language and Literature.
+                _br__b_Core Courses:_b_ Translation Theory and Practice, Advanced Writing, Comparative Literature, Linguistics.
+                _br__b_Career Path:_b_ Junior Translator → Senior Translator → Proofreader/Translation Project Manager.
+            </li>
+            <li value="INTERPRETER">
+                _b_Interpreter Details:_b_
+                _br__b_Role:_b_ The "fast-acting language bridge." Provides real-time spoken translation in international meetings, business negotiations, and legal proceedings, demanding top bilingual skills, memory, composure, and broad knowledge.
+                _br__b_Key Skills:_b_ Interpreting, public speaking, listening, cross-cultural communication.
+                _br__b_Matching Majors:_b_ English, Chinese Language and Literature.
+                _br__b_Core Courses:_b_ Interpreting Skills, Public Speaking, Advanced Listening and Speaking, Cross-cultural Communication.
+                _br__b_Career Path:_b_ Escort Interpreter → Conference Interpreter → Simultaneous Interpreter.
+            </li>
+            <li value="CHINESE LANGUAGE TEACHER">
+                _b_Chinese Language Teacher Details:_b_
+                _br__b_Role:_b_ A "cultural ambassador" spreading Chinese language and culture globally. Designs engaging activities to teach listening, speaking, reading, and writing, while introducing Chinese culture to diverse learners.
+                _br__b_Key Skills:_b_ Language teaching, cultural communication, instructional design.
+                _br__b_Matching Majors:_b_ Chinese Language and Literature.
+                _br__b_Core Courses:_b_ Teaching Chinese as a Second Language, Modern Chinese Language, Chinese Culture, Linguistics.
+                _br__b_Career Path:_b_ Teacher → Teaching Leader → Course Coordinator.
+            </li>
+            <li value="ENGLISH TEACHER">
+                _b_English Teacher (ESL) Details:_b_
+                _br__b_Role:_b_ The "key" helping non-native speakers access the English-speaking world. Creates immersive environments and uses second-language teaching methods to build learners' interest and confidence.
+                _br__b_Key Skills:_b_ TESL methods, communication, classroom management.
+                _br__b_Matching Majors:_b_ English.
+                _br__b_Core Courses:_b_ Teaching English as a Second Language (TESL), Phonetics and Phonology, Syntax, Sociolinguistics.
+                _br__b_Career Path:_b_ Teacher → Senior Teacher/Trainer → Academic Director.
+            </li>
+            <li value="TCM HEALTH CONSULTANT">
+                _b_TCM Health Consultant Details:_b_
+                _br__b_Role:_b_ A modern practitioner of the "preventive treatment" philosophy in TCM. Provides personalized wellness plans including dietary therapy, exercise, emotional guidance, and seasonal health tips.
+                _br__b_Key Skills:_b_ TCM diagnosis, health planning, client communication.
+                _br__b_Matching Majors:_b_ Traditional Chinese Medicine.
+                _br__b_Core Courses:_b_ TCM Health Preservation, Dietetics of Chinese Medicine, TCM Basic Theory, Psychology of TCM.
+                _br__b_Career Path:_b_ Health Consultant → Wellness Center Director → Brand Health Advisor.
+            </li>
+            <li value="TCM RESEARCHER">
+                _b_TCM Researcher Details:_b_
+                _br__b_Role:_b_ The scientific force advancing TCM globally. Uses pharmacology, molecular biology, and data science to study active ingredients, mechanisms of formulas, and acupuncture's neurobiological basis.
+                _br__b_Key Skills:_b_ Research, data analysis, academic writing.
+                _br__b_Matching Majors:_b_ Traditional Chinese Medicine (typically requires MSc/PhD).
+                _br__b_Core Courses:_b_ TCM Research Methodology, Pharmacology, Molecular Biology, Statistics.
+                _br__b_Career Path:_b_ Research Assistant → Associate Researcher → Principal Investigator (PI).
+            </li>
+            <li value="ELECTRONICS HARDWARE ENGINEER">
+                _b_Electronics Hardware Engineer Details:_b_
+                _br__b_Role:_b_ The "heart creator" of electronics, responsible for designing, developing, and testing PCBs and selecting microprocessors, sensors, and chips for devices from smartphones to satellites.
+                _br__b_Key Skills:_b_ Circuit design, PCB development, hardware debugging, component selection.
+                _br__b_Matching Majors:_b_ Electronics and Information Engineering.
+                _br__b_Core Courses:_b_ Circuit Theory, Digital Logic Design, Analog Electronics, Microprocessor.
+                _br__b_Career Path:_b_ Hardware Engineer → Senior Hardware Engineer → Hardware Architect.
+            </li>
+            <li value="TELECOMMUNICATIONS ENGINEER">
+                _b_Telecommunications Engineer Details:_b_
+                _br__b_Role:_b_ The "network builder" of the information society, designing, deploying, and maintaining systems that support global communication from 5G networks to submarine cables.
+                _br__b_Key Skills:_b_ Communication systems, signal processing, RF engineering, network planning.
+                _br__b_Matching Majors:_b_ Electronics and Information Engineering.
+                _br__b_Core Courses:_b_ Communication Principles, Signals and Systems, Electromagnetic Fields and Waves, Digital Signal Processing.
+                _br__b_Career Path:_b_ Telecommunications Engineer → RF Engineer → Network Planning Specialist.
+            </li>
+            <li value="PROCESS ENGINEER">
+                _b_Process Engineer (Chemical) Details:_b_
+                _br__b_Role:_b_ The "process optimization master" in chemical plants, designing safe, efficient, cost-effective processes for large-scale production and continuously improving operations.
+                _br__b_Key Skills:_b_ Process design, data analysis, safety management, optimization.
+                _br__b_Matching Majors:_b_ Chemical Engineering and Technology.
+                _br__b_Core Courses:_b_ Chemical Process Principles, Thermodynamics, Heat and Mass Transfer, Reactor Design.
+                _br__b_Career Path:_b_ Process Engineer → Senior Process Engineer → Production Manager / Plant Manager.
+            </li>
+            <li value="PRODUCT DEVELOPMENT SCIENTIST">
+                _b_Product Development Scientist (Chemical) Details:_b_
+                _br__b_Role:_b_ The "new material creator" who designs formulas and runs experiments to develop chemical products like eco-friendly coatings or high-performance battery materials.
+                _br__b_Key Skills:_b_ R&amp;D, chemical formulation, laboratory testing, innovation.
+                _br__b_Matching Majors:_b_ Chemical Engineering and Technology.
+                _br__b_Core Courses:_b_ Organic Chemistry, Polymer Science, Product Design and Development, Reaction Engineering.
+                _br__b_Career Path:_b_ R&amp;D Scientist → Project Lead → R&amp;D Manager.
+            </li>
+            <li value="SAFETY ENGINEER">
+                _b_Safety Engineer (Chemical) Details:_b_
+                _br__b_Role:_b_ The "risk control officer" who identifies hazards like fire or toxic leaks, designs safety systems, and prepares emergency plans to protect life and environment.
+                _br__b_Key Skills:_b_ Risk assessment, process safety, emergency planning, compliance.
+                _br__b_Matching Majors:_b_ Chemical Engineering and Technology.
+                _br__b_Core Courses:_b_ Chemical Process Safety, Risk Assessment, Industrial Regulations, Thermodynamics.
+                _br__b_Career Path:_b_ Safety Engineer → EHS Manager → Regional EHS Director.
+            </li>
+            <li value="SOLAR ENERGY ENGINEER">
+                _b_Solar Energy Engineer Details:_b_
+                _br__b_Role:_b_ A key player in the green energy revolution, responsible for solar plant site selection, design, equipment selection, construction management, and grid connection.
+                _br__b_Key Skills:_b_ Solar system design, power electronics, energy storage, project management.
+                _br__b_Matching Majors:_b_ New Energy Science and Engineering.
+                _br__b_Core Courses:_b_ Solar Energy Engineering, Semiconductor Physics, Power Electronics, Energy Storage.
+                _br__b_Career Path:_b_ Solar Engineer → Project Manager → Renewable Energy Specialist.
+            </li>
+            <li value="MARINE BIOLOGIST">
+                _b_Marine Biologist Details:_b_
+                _br__b_Role:_b_ An explorer of marine life, studying the physiology, behavior, genetics, and ecology of marine organisms from plankton to whales, contributing to biodiversity conservation and sustainable fisheries.
+                _br__b_Key Skills:_b_ Marine species research, data analysis, fieldwork, biodiversity monitoring.
+                _br__b_Matching Majors:_b_ Marine Science.
+                _br__b_Core Courses:_b_ Marine Biology, Ecology, Marine Microbiology, Fisheries Science.
+                _br__b_Career Path:_b_ Research Assistant → Marine Biologist → Chief Scientist / Professor.
+            </li>
+            <li value="MARINE CONSERVATIONIST">
+                _b_Marine Conservationist Details:_b_
+                _br__b_Role:_b_ A guardian of marine ecosystems, working in NGOs or government agencies to protect coral reefs, mangroves, sea turtles, and other endangered species through monitoring, public education, policy advocacy, and community projects.
+                _br__b_Key Skills:_b_ Conservation planning, ecological monitoring, community outreach, policy advocacy.
+                _br__b_Matching Majors:_b_ Marine Science.
+                _br__b_Core Courses:_b_ Marine Conservation, Ecology, Environmental Policy, Community Management.
+                _br__b_Career Path:_b_ Project Assistant → Project Officer → Project Manager → Conservation Director.
+            </li>
+            <li value="HYDROGRAPHIC SURVEYOR">
+                _b_Hydrographic Surveyor Details:_b_
+                _br__b_Role:_b_ A specialist in mapping the seafloor, using sonar and multibeam systems to measure underwater topography, depth, and obstacles, providing critical data for navigation safety, pipelines, ports, and ocean engineering.
+                _br__b_Key Skills:_b_ Hydrographic surveying, sonar technology, GIS mapping, data processing.
+                _br__b_Matching Majors:_b_ Marine Technology.
+                _br__b_Core Courses:_b_ Hydrographic Surveying, Geodesy, Acoustic Positioning, Geographic Information System (GIS).
+                _br__b_Career Path:_b_ Survey Assistant → Hydrographic Surveyor → Senior Surveyor / Project Lead.
+            </li>
+            <li value="ACTUARY">
+                _b_Actuary Details:_b_
+                _br__b_Role:_b_ Actuaries are top-tier financial experts who use mathematics and statistics to assess future uncertain risks. They work in insurance and consulting firms to calculate premium rates, evaluate the adequacy of reserves, and perform risk modeling.
+                _br__b_Key Skills:_b_ Risk modeling, statistical analysis, financial projections, passing actuarial exams.
+                _br__b_Matching Majors:_b_ Mathematics.
+                _br__b_Core Courses:_b_ Actuarial Mathematics, Probability Theory, Financial Mathematics, Statistics.
+                _br__b_Career Path:_b_ Actuarial Assistant → Associate Actuary → Fellow Actuary → Chief Actuary.
+                _br__b_Industries:_b_ Insurance, Finance, Consulting.
+                _br__b_Salary:_b_ RM 7,000 - RM 25,000/month.
+            </li>
+            <li value="STATISTICIAN">
+                _b_Statistician Details:_b_
+                _br__b_Role:_b_ The scientist who "lets data speak," applying statistical methods across industries (pharma, government, market research) to design experiments, collect and analyze data, and interpret results. Their work ensures the scientific validity and reliability of studies, from clinical trials to national censuses.
+                _br__b_Key Skills:_b_ Statistical modeling, data analysis, experimental design, problem solving.
+                _br__b_Matching Majors:_b_ Mathematics and Applied Mathematics.
+                _br__b_Core Courses:_b_ Mathematical Statistics, Probability Theory, Regression Analysis, Experimental Design.
+                _br__b_Career Path:_b_ Statistician → Biostatistician / Data Scientist → Head of Statistics Department.
+            </li>
+
+            <li>
+                I don't recognize that career. Please try one of these examples:
+                _br_BACKEND DEVELOPER, DATA SCIENTIST, UX DESIGNER,
+                _br_MARINE BIOLOGIST,AUDITOR , ACTUARY.
+                _br__br_
+            </li>
+        </condition>
+    </template>
+</category>
+
+<category>
+    <pattern>WHAT IS * </pattern>
+    <template><srai>DETAILS ABOUT <star/></srai></template>
+</category>
+<category>
+    <pattern>TELL ME ABOUT *</pattern>
+    <template><srai>DETAILS ABOUT <star/></srai></template>
+</category>
+<category>
+    <pattern>DESCRIBE *</pattern>
+    <template><srai>DETAILS ABOUT <star/></srai></template>
+</category>
+
+<category>
+    <pattern>CAREERS FOR * AND *</pattern>
+    <template>
+        <think>
+            <set name="field1"><star index="1"/></set>
+            <set name="field2"><star index="2"/></set>
+        </think>
+        <!-- This redirects to a simpler, more robust matching system below -->
+        <srai><get name="field1"/> AND <get name="field2"/> CAREERS</srai>
+    </template>
+</category>
+
+<category>
+    <pattern>* CAREERS FOR * AND *</pattern>
+    <template><srai>CAREERS FOR <star index="2"/> AND <star index="3"/></srai></template>
+</category>
+
+<category>
+    <pattern>SCIENCE AND ART CAREERS</pattern>
+    <template><srai>ART AND SCIENCE CAREERS</srai></template>
+</category>
+<category>
+    <pattern>BUSINESS AND ART CAREERS</pattern>
+    <template><srai>ART AND BUSINESS CAREERS</srai></template>
+</category>
+<category>
+    <pattern>SCIENCE AND BUSINESS CAREERS</pattern>
+    <template><srai>BUSINESS AND SCIENCE CAREERS</srai></template>
+</category>
+
+<category>
+    <pattern>ART AND SCIENCE CAREERS</pattern>
+    <template>
+        _b_Art + Science Interdisciplinary Careers:_b__br_
+        - _b_Scientific Illustrator:_b_ Creates accurate visual representations of scientific concepts. (Skills: Scientific knowledge + Artistic techniques)_br_
+        - _b_Sound Engineer:_b_ Designs audio systems using acoustic principles. (Skills: Physics of sound + Audio technology)_br_
+        - _b_Conservation Technologist:_b_ Applies technology to art restoration and preservation. (Skills: Materials science + Digital imaging)_br_
+        _b_Academic Path Example:_b_ Combine Digital Media Technology with Physics/Biology.
+    </template>
+</category>
+
+<category>
+    <pattern>ART AND BUSINESS CAREERS</pattern>
+    <template>
+        _b_Art + Business Interdisciplinary Careers:_b__br_
+        - _b_Art Market Analyst:_b_ Evaluates artwork investment potential and market trends. (Skills: Art valuation + Financial analysis)_br_
+        - _b_Creative Director:_b_ Leads creative teams in commercial projects. (Skills: Artistic vision + Project management)_br_
+        - _b_Entertainment Producer:_b_ Manages production of creative content for profit. (Skills: Storytelling + Budgeting)_br_
+        _b_Academic Path Example:_b_ Combine Advertising/Design with E-commerce/Finance.
+    </template>
+</category>
+
+<category>
+    <pattern>BUSINESS AND SCIENCE CAREERS</pattern>
+    <template>
+        _b_Business + Science Interdisciplinary Careers:_b__br_
+        - _b_Pharma Product Manager:_b_ Guides drug development from lab to market. (Skills: Scientific knowledge + Market analysis)_br_
+        - _b_Environmental Consultant:_b_ Advises businesses on sustainable practices. (Skills: Environmental science + Cost-benefit analysis)_br_
+        - _b_Biotech Investment Analyst:_b_ Evaluates investment opportunities in life sciences. (Skills: Scientific literacy + Financial modeling)_br_
+        _b_Academic Path Example:_b_ Combine Biotechnology/Chemistry with International Business.
+    </template>
+</category>
+
+<!-- CAREER PREPARATION -->
+<category>
+    <pattern>RESUME HELP</pattern>
+    <template>
+        _b_Resume Building Guide:_b_
+        _br_1. _b_Structure:_b_ Contact Info → Summary → Education → Experience → Skills.
+        _br_2. _b_Experience Section:_b_ Use action verbs (e.g., Developed, Managed, Implemented) and quantify achievements (e.g., "Increased efficiency by 15%").
+        _br_3. _b_Skills:_b_ Separate technical skills (e.g., Python, Java, Figma) from soft skills (e.g., Leadership, Communication).
+        _br__i_Tip: Keep it to one page for entry-level roles. Tailor it for each job application!_i_
+        _br__br_
+        <random>
+            <li>
+                _b_Resume Quick Tip:_b_ Use a clean, professional format with consistent fonts.
+            </li>
+            <li>
+                _b_Resume Quick Tip:_b_ Proofread carefully for any typos or grammatical errors.
+            </li>
+            <li>
+                _b_Resume Quick Tip:_b_ Highlight projects and technical skills for tech roles.
+            </li>
+            <li>
+                _b_Resume Quick Tip:_b_ Emphasize internships and analytical abilities for business roles.
+            </li>
+        </random>
+        _br_For personalized feedback, you can contact the CAREER CENTER SERVICES.
+    </template>
+</category>
+
+<category>
+    <pattern>INTERVIEW PREPARATION</pattern>
+    <template>
+        _b_Interview Prep Steps:_b_
+        _br_1. _b_Research:_b_ Understand the company, its products, culture, and recent news.
+        _br_2. _b_Prepare Stories:_b_ Use the STAR method (Situation, Task, Action, Result) to structure answers for behavioral questions.
+        _br_3. _b_Technical Prep:_b_ For tech roles, practice on platforms like LeetCode. For business roles, review case studies.
+        _br_4. _b_Ask Questions:_b_ Prepare thoughtful questions to ask the interviewer, such as "What does a typical day look like in this role?" or "How does this team contribute to the company's goals?".
+        _br__br_
+        <random>
+            <li>
+                _b_Interview Day Tip:_b_ Dress professionally, even for online interviews.
+            </li>
+            <li>
+                _b_Interview Day Tip:_b_ Practice your self-introduction (your "elevator pitch").
+            </li>
+            <li>
+                _b_Interview Day Tip:_b_ Send a thank-you note via email within 24 hours after the interview.
+            </li>
+        </random>
+        _br_The Career Services Office offers mock interviews.
+    </template>
+</category>
+
+<category>
+    <pattern>CAREER CENTER SERVICES</pattern>
+    <template>
+        _b_XMUM Career Services Office 📚_b_
+        _br_📍 _b_Location:_b_ Room B1 #107, Career Services Office, XMU Malaysia Campus
+        _br_⏰ _b_Hours:_b_ Monday–Friday, 8:30am–5:30pm
+        _br_📞 _b_Contact:_b_ careerservices@xmu.edu.my | 03‑8705 5151
+        _br__br__b_Key Services Offered:_b_
+        _br__b_• Resume &amp; Portfolio Guidance:_b_ Get expert help to craft a professional resume, LinkedIn profile, and e-portfolio.
+        _br__b_• Interview Preparation:_b_ Access mock interview practice, training on techniques, and personalized feedback.
+        _br__b_• Job &amp; Internship Portal:_b_ Login with your XMUM student ID to access 2,000+ opportunities.
+        _br__b_• Industry Talks &amp; Career Series:_b_ Engage with employers and alumni through monthly events.
+        _br_Feel free to visit or email them to schedule a session!
+    </template>
+</category>
+
+<category><pattern>HOW TO PREPARE A RESUME</pattern><template><srai>RESUME HELP</srai></template></category>
+<category><pattern>CV HELP</pattern><template><srai>RESUME HELP</srai></template></category>
+<category><pattern>MOCK INTERVIEW</pattern><template><srai>INTERVIEW PREPARATION</srai></template></category>
+<category><pattern>JOB INTERVIEW TIPS</pattern><template><srai>INTERVIEW PREPARATION</srai></template></category>
+<category><pattern>CAREER SERVICES OFFICE</pattern><template><srai>CAREER CENTER SERVICES</srai></template></category>
+
+<category>
+    <pattern>*</pattern>
+    <template>
+        <random>
+            <li>Sorry, I didn't understand that. You can ask me things like "What careers for software engineering?" or "Details about a data scientist"</li>
+            <li>I'm not sure how to answer that. Try asking about majors, career options, or mock interview.</li>
+            <li>I can help with career-related questions. For example, try "What majors are in engineering?" or "CV HELP"</li>
+        </random>
+    </template>
+</category>
+
+</aiml>
