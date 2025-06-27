@@ -1,7 +1,7 @@
 import gradio as gr
 import io
 from typing import Iterable
-from chatbot import CombinedChatbot
+from chatbot import Bot
 from career_predictor import CareerPredictor
 from gradio.themes.base import Base
 from gradio.themes.utils import colors, fonts, sizes
@@ -124,7 +124,7 @@ def update_chart(message: str) -> str:
 
 if __name__ == "__main__":
     predictor = CareerPredictor()
-    combined_chatbot_instance = CombinedChatbot()
+    combined_chatbot_instance = Bot()
     with gr.Blocks(theme=Seafoam()) as app:
         gr.Markdown("## Xplore Career Chatbot")
         gr.Markdown("This is **Xplore Career Chatbot**. You can ask questions about careers. Start by typing `hello` or `hi`.")
@@ -159,7 +159,7 @@ if __name__ == "__main__":
         clear.click(lambda: [], None, chatbot)
 
         def initial_load():
-            combined_chatbot_instance.reset_all()
+            combined_chatbot_instance.reset()
             welcome = combined_chatbot_instance.get_response("hello")
             return [{"role": "assistant", "content": welcome}]
 
