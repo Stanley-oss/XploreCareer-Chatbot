@@ -11,13 +11,17 @@
     - Detailed career information (e.g., "Details about backend developer")_br_
     - Cross-disciplinary options (e.g., "Careers for art and science")_br_
     - Career preparation (e.g., "How to prepare a resume")_br_
-    - Career Services Office information
+    - Career Services Office information_b_
+    _br_
+    To start a personalized career planning session, just type _b_"start planning"_b_.
     </template>
 </category>
 <category>
     <pattern>HI</pattern>
     <template><srai>HELLO</srai></template>
 </category>
+
+<category><pattern>ASK GENERAL</pattern><template><srai>HELLO</srai></template></category>
 
 <category>
     <pattern>WHAT MAJORS ARE IN *</pattern>
