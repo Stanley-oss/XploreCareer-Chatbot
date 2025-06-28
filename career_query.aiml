@@ -16,12 +16,15 @@
     To start a personalized career planning session, just type _b_"start planning"_b_.
     </template>
 </category>
+
 <category>
     <pattern>HI</pattern>
     <template><srai>HELLO</srai></template>
 </category>
-
-<category><pattern>ASK GENERAL</pattern><template><srai>HELLO</srai></template></category>
+<category>
+    <pattern>ASK GENERAL</pattern>
+    <template><srai>HELLO</srai></template>
+</category>
 
 <category>
     <pattern>WHAT MAJORS ARE IN *</pattern>
@@ -40,7 +43,20 @@
     </template>
 </category>
 
-<!-- CAREERS BY MAJOR -->
+<category>
+    <pattern>WHAT DEPARTMENTS ARE IN *</pattern>
+    <template><srai>WHAT MAJORS ARE IN <star/></srai></template>
+</category>
+<category>
+    <pattern>WHAT ARE THE MAJORS IN *</pattern>
+    <template><srai>WHAT MAJORS ARE IN <star/></srai></template>
+</category>
+<category>
+    <pattern>MAJORS UNDER *</pattern>
+    <template><srai>WHAT MAJORS ARE IN <star/></srai></template>
+</category>
+
+
 <category>
     <pattern>CAREERS FOR *</pattern>
 <template>
@@ -248,8 +264,25 @@
     </condition>
 </template>
 </category>
+
 <category>
     <pattern>WHAT CAREERS FOR *</pattern>
+    <template><srai>CAREERS FOR <star/></srai></template>
+</category>
+<category>
+    <pattern>WHAT JOBS CAN I GET WITH *</pattern>
+    <template><srai>CAREERS FOR <star/></srai></template>
+</category>
+<category>
+    <pattern>CAREER PATHS FOR *</pattern>
+    <template><srai>CAREERS FOR <star/></srai></template>
+</category>
+<category>
+    <pattern>WHAT CAN I DO WITH *</pattern>
+    <template><srai>CAREERS FOR <star/></srai></template>
+</category>
+<category>
+    <pattern>JOB OPPORTUNITIES FOR *</pattern>
     <template><srai>CAREERS FOR <star/></srai></template>
 </category>
 
@@ -268,7 +301,6 @@
                 _br__b_Core Courses:_b_ Data Structures, Algorithm Design, Database Systems, Operating Systems, Computer Networks.
                 _br__b_Career Path:_b_ Junior Backend Engineer → Senior Backend Engineer → System Architect / Tech Lead.
                 _br__b_Industries:_b_ Tech companies, Fintech, E-commerce.
-                _br__b_Salary:_b_ RM 4,000 - RM 15,000/month.
             </li>
             <li value="FRONTEND DEVELOPER">
                 _b_Frontend Developer Details:_b_
@@ -335,7 +367,6 @@
                 _br__b_Core Courses:_b_ Cloud Computing, Computer Networks, Database Systems, Information Security.
                 _br__b_Career Path:_b_ Cloud Engineer → Cloud Architect → Chief Technology Officer (CTO).
                 _br__b_Industries:_b_ Tech, Finance, Enterprise Solutions.
-                _br__b_Salary:_b_ RM 12,000 - RM 25,000/month.
             </li>
             <li value="MACHINE LEARNING ENGINEER">
                 _b_Machine Learning Engineer Details:_b_
@@ -696,7 +727,6 @@
                 _br__b_Core Courses:_b_ Actuarial Mathematics, Probability Theory, Financial Mathematics, Statistics.
                 _br__b_Career Path:_b_ Actuarial Assistant → Associate Actuary → Fellow Actuary → Chief Actuary.
                 _br__b_Industries:_b_ Insurance, Finance, Consulting.
-                _br__b_Salary:_b_ RM 7,000 - RM 25,000/month.
             </li>
             <li value="STATISTICIAN">
                 _b_Statistician Details:_b_
@@ -706,7 +736,6 @@
                 _br__b_Core Courses:_b_ Mathematical Statistics, Probability Theory, Regression Analysis, Experimental Design.
                 _br__b_Career Path:_b_ Statistician → Biostatistician / Data Scientist → Head of Statistics Department.
             </li>
-
             <li>
                 I don't recognize that career. Please try one of these examples:
                 _br_BACKEND DEVELOPER, DATA SCIENTIST, UX DESIGNER,
@@ -726,6 +755,14 @@
     <template><srai>DETAILS ABOUT <star/></srai></template>
 </category>
 <category>
+    <pattern>GIVE ME INFORMATION ABOUT *</pattern>
+    <template><srai>DETAILS ABOUT <star/></srai></template>
+</category>
+<category>
+    <pattern>WHAT DO YOU KNOW ABOUT *</pattern>
+    <template><srai>DETAILS ABOUT <star/></srai></template>
+</category>
+<category>
     <pattern>DESCRIBE *</pattern>
     <template><srai>DETAILS ABOUT <star/></srai></template>
 </category>
@@ -741,10 +778,21 @@
         <srai><get name="field1"/> AND <get name="field2"/> CAREERS</srai>
     </template>
 </category>
-
 <category>
     <pattern>* CAREERS FOR * AND *</pattern>
     <template><srai>CAREERS FOR <star index="2"/> AND <star index="3"/></srai></template>
+</category>
+<category>
+    <pattern>WHAT JOBS CAN I GET WITH * AND *</pattern>
+    <template><srai>CAREERS FOR <star index="1"/> AND <star index="2"/></srai></template>
+</category>
+<category>
+    <pattern>POSSIBLE CAREERS FOR * AND *</pattern>
+    <template><srai>CAREERS FOR <star index="1"/> AND <star index="2"/></srai></template>
+</category>
+<category>
+    <pattern>WHAT CAREER OPTIONS FOR * AND *</pattern>
+    <template><srai>CAREERS FOR <star index="1"/> AND <star index="2"/></srai></template>
 </category>
 
 <category>
@@ -821,6 +869,11 @@
     </template>
 </category>
 
+<category><pattern>HOW TO PREPARE A RESUME</pattern><template><srai>RESUME HELP</srai></template></category>
+<category><pattern>HOW TO WRITE A CV</pattern><template><srai>RESUME HELP</srai></template></category>
+<category><pattern>CV HELP</pattern><template><srai>RESUME HELP</srai></template></category>
+<category><pattern>RESUME TIPS</pattern><template><srai>RESUME HELP</srai></template></category>
+
 <category>
     <pattern>INTERVIEW PREPARATION</pattern>
     <template>
@@ -845,6 +898,11 @@
     </template>
 </category>
 
+<category><pattern>HOW TO PREPARE FOR AN INTERVIEW</pattern><template><srai>INTERVIEW PREPARATION</srai></template></category>
+<category><pattern>MOCK INTERVIEW</pattern><template><srai>INTERVIEW PREPARATION</srai></template></category>
+<category><pattern>JOB INTERVIEW TIPS</pattern><template><srai>INTERVIEW PREPARATION</srai></template></category>
+<category><pattern>INTERVIEW ADVICE</pattern><template><srai>INTERVIEW PREPARATION</srai></template></category>
+
 <category>
     <pattern>CAREER CENTER SERVICES</pattern>
     <template>
@@ -861,11 +919,9 @@
     </template>
 </category>
 
-<category><pattern>HOW TO PREPARE A RESUME</pattern><template><srai>RESUME HELP</srai></template></category>
-<category><pattern>CV HELP</pattern><template><srai>RESUME HELP</srai></template></category>
-<category><pattern>MOCK INTERVIEW</pattern><template><srai>INTERVIEW PREPARATION</srai></template></category>
-<category><pattern>JOB INTERVIEW TIPS</pattern><template><srai>INTERVIEW PREPARATION</srai></template></category>
 <category><pattern>CAREER SERVICES OFFICE</pattern><template><srai>CAREER CENTER SERVICES</srai></template></category>
+<category><pattern>WHO CAN HELP WITH MY CAREER</pattern><template><srai>CAREER CENTER SERVICES</srai></template></category>
+<category><pattern>Career Services Office information</pattern><template><srai>CAREER CENTER SERVICES</srai></template></category>
 
 <category>
     <pattern>*</pattern>
