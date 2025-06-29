@@ -12,7 +12,7 @@ ABILITY_COLUMNS = [
 
 # ============== Category A: Professional Rules ==============
 RULE_BASE = [
-    
+
     {'type': 'Major', 'conditions': ['Computer Science and Technology', 'CST'],
      'effects': {'Programming Ability': 0.5, 'Problem-Solving': 0.4, 'Analytical Skills': 0.4,
                  'Mathematical Skills': 0.3}},
@@ -219,7 +219,6 @@ class UserProfile:
 
 # --- Step 3: Reasoning machine and main function (remains unchanged) ---
 def inference_engine(user_profile: UserProfile, rules: List[Dict[str, Any]]):
-
     for rule in rules:
         if rule['type'] == 'Major' and any(
                 keyword.lower() in user_profile.major.lower() for keyword in rule['conditions']):
@@ -238,7 +237,6 @@ def inference_engine(user_profile: UserProfile, rules: List[Dict[str, Any]]):
                 if rule['type'] == 'MBTI' and letter == rule['condition']:
                     user_profile.apply_effects(rule['effects'])
 
-
     for challenge in user_profile.challenges:
         for rule in rules:
             if rule['type'] == 'Challenge' and challenge == rule['condition']:
@@ -247,12 +245,10 @@ def inference_engine(user_profile: UserProfile, rules: List[Dict[str, Any]]):
                 if 'direct_effects' in rule:
                     user_profile.apply_effects(rule['direct_effects'])
 
-
     user_profile.normalize_scores()
 
 
 def main():
-
     print(f"=== User Ability Assessment System ===")
     print(f"Major: {user_major}")
     print(f"Interests: {', '.join(user_interests)}")
@@ -274,6 +270,7 @@ def main():
     for ability, score in final_abilities.items():
         print(f"{ability:<25} {score:+.2f}")
     print("=" * 50)
+
 
 if __name__ == "__main__":
     main()

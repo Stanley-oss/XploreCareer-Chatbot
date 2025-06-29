@@ -1,6 +1,7 @@
 import asyncio
 import httpx
 
+
 class LLMClient:
     def __init__(self, system_prompt: str, base_url: str = "http://127.0.0.1:11434"):
         self.base_url = base_url
@@ -35,5 +36,5 @@ class LLMClient:
                                     yield full_response
                         except json.JSONDecodeError:
                             continue
-                
+
                 self.messages.append({"role": "assistant", "content": full_response})

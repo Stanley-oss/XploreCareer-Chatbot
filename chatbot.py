@@ -7,7 +7,7 @@ import requests
 from expert_system import UserProfile, inference_engine, RULE_BASE
 
 
-#尝试把careerchatbot和combinedchatbot合并到一起，不然逻辑太乱了
+# 尝试把careerchatbot和combinedchatbot合并到一起，不然逻辑太乱了
 class Bot:
     def __init__(self):
         self.kernel = aiml.Kernel()
@@ -57,15 +57,15 @@ class Bot:
         return f.getvalue()
 
     def process_aiml_formatting(self, text: str) -> str:
-            text = text.replace('_br_', '\n\n')
-            text = text.replace("_b_", "**")
-            text = text.replace("_i_", "*")
-            return text or "I'm not sure how to answer that. Try asking about careers, majors, or career preparation tips."
-    
+        text = text.replace('_br_', '\n\n')
+        text = text.replace("_b_", "**")
+        text = text.replace("_i_", "*")
+        return text or "I'm not sure how to answer that. Try asking about careers, majors, or career preparation tips."
+
     def get_response(self, user_input: str) -> str:
         user_input = user_input.strip().lower()
 
-        #初始状态默认是general
+        # 初始状态默认是general
         if self.conversation_state == 0:
             if user_input == "start planning":
                 self.conversation_state = 1
@@ -73,16 +73,16 @@ class Bot:
             else:
                 return self.process_aiml_formatting(self.kernel.respond(user_input.upper()))
 
-        #处理中途退出
+        # 处理中途退出
         if user_input == "start over":
             self.reset()
-            return self.process_aiml_formatting(self.kernel.respond("STARTPLANNING"))        
+            return self.process_aiml_formatting(self.kernel.respond("STARTPLANNING"))
         if user_input == "cancel planning":
             self.reset()
             return "Career planning cancelled. You can now ask general questions or start a new plan."
         if user_input == "ask general":
             return self.process_aiml_formatting(self.kernel.respond("HELLO"))
-        
+
         # 生成plan的部分
         if self.conversation_state == 1:
             self.user_data['major'] = user_input

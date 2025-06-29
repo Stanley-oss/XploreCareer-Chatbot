@@ -7,8 +7,10 @@ from gradio.themes.base import Base
 from gradio.themes.utils import colors, fonts, sizes
 from llm import LLMClient
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+
+matplotlib.use('Agg')
+
 
 class Seafoam(Base):
     def __init__(
@@ -61,6 +63,7 @@ class Seafoam(Base):
             button_large_padding="14px",
         )
 
+
 async def respond(message: str, chat_history: list):
     """
     流式响应:
@@ -69,20 +72,21 @@ async def respond(message: str, chat_history: list):
     """
     global user_response
     user_response = user_response + ' ' + message
-    bot_response_original = combined_chatbot.get_response(message)    
+    bot_response_original = combined_chatbot.get_response(message)
     chat_history.append({"role": "user", "content": message})
     ollama_input = f"User Input: {message}\nChatbot Output: {bot_response_original}"
-    
-    # 流式获取改进的响应
+
+    # 流式获取改进后的响应
     improved_response = ""
     async for partial_response in llm_client.call_stream(ollama_input):
         improved_response = partial_response
         current_history = chat_history.copy()
         current_history.append({"role": "assistant", "content": improved_response})
         yield current_history, "", gr.update(visible=False), ""
-    
+
     chat_history.append({"role": "assistant", "content": improved_response})
     yield chat_history, "", gr.update(visible=False), ""
+
 
 def plot_svg(probs: dict) -> str:
     """
@@ -118,6 +122,7 @@ def plot_svg(probs: dict) -> str:
     plt.close(fig)
     return svg_data
 
+
 if __name__ == "__main__":
     user_response = ""
     predictor = CareerPredictor()
@@ -125,16 +130,17 @@ if __name__ == "__main__":
 
     system_prompt = "You need to improve the chatbot's output according to the user response to make it more humanization. YOU ONLY NEED TO GIVE ME THE IMPROVED OUTPUT."
     llm_client = LLMClient(system_prompt)
-    
+
     with gr.Blocks(theme=Seafoam()) as app:
         gr.Markdown("## Xplore Career Chatbot")
-        gr.Markdown("This is **Xplore Career Chatbot**. You can ask questions about careers. Start by typing `hello` or `hi`.")
-        
+        gr.Markdown(
+            "This is **Xplore Career Chatbot**. You can ask questions about careers. Start by typing `hello` or `hi`.")
+
         chatbot = gr.Chatbot(label="Xplore Career Bot", type='messages', height=500)
         with gr.Row(equal_height=True):
             with gr.Column(scale=9):
                 user_input = gr.Textbox(
-                    placeholder="Welcome to ask questions about career! (Press Enter to send, Shift+Enter for new line)", 
+                    placeholder="Welcome to ask questions about career! (Press Enter to send, Shift+Enter for new line)",
                     show_label=False
                 )
             with gr.Column(scale=1):
@@ -143,8 +149,7 @@ if __name__ == "__main__":
         with gr.Row():
             predict_btn = gr.Button("Predict", size="sm", variant="secondary")
             clear = gr.Button("Clear", size="sm")
-        
-        # 预测结果显示区域（使用可折叠的Column）
+
         with gr.Column(visible=False) as prediction_panel:
             with gr.Row():
                 gr.Markdown("### Career Prediction Results")
@@ -156,25 +161,24 @@ if __name__ == "__main__":
             example1 = gr.Button("CAREERS FOR AIT", size="sm")
             example2 = gr.Button("START PLANNING", size="sm")
             example3 = gr.Button("CV HELP", size="sm")
-        
-        # 事件绑定
+
         example1.click(lambda: "CAREERS FOR AIT", None, user_input)
         example2.click(lambda: "START PLANNING", None, user_input)
         example3.click(lambda: "CV HELP", None, user_input)
 
-        # 流式响应绑定 - 支持回车键
-        submit_event = submit.click(respond, inputs=[user_input, chatbot], outputs=[chatbot, user_input,prediction_panel, prediction_chart])
-        
-        # 回车键提交
-        user_input.submit(respond, inputs=[user_input, chatbot], outputs=[chatbot, user_input, prediction_panel, prediction_chart])
-        
-        # 预测按钮事件
+        submit_event = submit.click(respond, inputs=[user_input, chatbot],
+                                    outputs=[chatbot, user_input, prediction_panel, prediction_chart])
+
+        user_input.submit(respond, inputs=[user_input, chatbot],
+                          outputs=[chatbot, user_input, prediction_panel, prediction_chart])
+
+
         def show_prediction_panel():
             global user_response
 
             if not user_response.strip():
                 return gr.update(visible=False), ""
-            
+
             try:
                 user_response = user_response.strip()
                 print(f"INFO: Predicting user response: {user_response}")
@@ -195,14 +199,16 @@ if __name__ == "__main__":
                 """
                 return gr.update(visible=True), styled_chart
             except Exception as e:
-                return gr.update(visible=False), f"<div style='color: red; text-align: center; padding: 20px;'>Error: {str(e)}</div>"
-        
+                return gr.update(
+                    visible=False), f"<div style='color: red; text-align: center; padding: 20px;'>Error: {str(e)}</div>"
+
+
         predict_btn.click(
             show_prediction_panel,
             inputs=[],
             outputs=[prediction_panel, prediction_chart]
         )
-        
+
         close_prediction_btn.click(
             lambda: (gr.update(visible=False), ""),
             outputs=[prediction_panel, prediction_chart]
@@ -210,12 +216,14 @@ if __name__ == "__main__":
 
         clear.click(lambda: [], None, chatbot)
 
+
         def initial_load():
             global user_response
             user_response = ""
             combined_chatbot.reset()
             welcome = combined_chatbot.get_response("hello")
             return [{"role": "assistant", "content": welcome}]
+
 
         app.load(initial_load, None, chatbot)
 
