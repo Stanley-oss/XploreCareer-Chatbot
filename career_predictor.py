@@ -146,7 +146,7 @@ class CareerPredictor:
         """
         进行职业预测：输入用户的回答，返回预测的前10个职业及其概率
         """
-        if not text or not text.strip():
+        if not text.strip():
             return {profession: 0.0 for profession in self.professions[:min(10, len(self.professions))]}
         
         try:
@@ -157,6 +157,7 @@ class CareerPredictor:
             sent_embs = self.st_model.encode(sents, convert_to_tensor=True)
             cos_sim = util.cos_sim(sent_embs, self.aspect_embs).cpu().numpy()
             senti_scores = [self.vader.polarity_scores(s)["compound"] for s in sents]
+            print(f"Sentiment scores: {senti_scores}")
 
             tendency: List[tuple] = []
             for i in range(len(self.aspects)):

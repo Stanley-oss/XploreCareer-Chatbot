@@ -5,11 +5,11 @@ from chatbot import Bot
 from career_predictor import CareerPredictor
 from gradio.themes.base import Base
 from gradio.themes.utils import colors, fonts, sizes
+from llm import LLMClient
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-#ui设计
 class Seafoam(Base):
     def __init__(
             self,
@@ -61,14 +61,28 @@ class Seafoam(Base):
             button_large_padding="14px",
         )
 
-def respond(message: str, chat_history: list) -> tuple:
-    # Get bot response and append to history as dicts
-    bot_response_before = combined_chatbot_instance.get_response(message)
-    #TODO 看是否需要调用api统一输出
+async def respond(message: str, chat_history: list):
+    """
+    流式响应:
+    获取原始Chatbot回复
+    调用llm,获取改进后的回复
+    """
+    global user_response
+    user_response = user_response + ' ' + message
+    bot_response_original = combined_chatbot.get_response(message)    
     chat_history.append({"role": "user", "content": message})
-    chat_history.append({"role": "assistant", "content": bot_response_before})
-    return chat_history, ""  # clear input box
-
+    ollama_input = f"User Input: {message}\nChatbot Output: {bot_response_original}"
+    
+    # 流式获取改进的响应
+    improved_response = ""
+    async for partial_response in llm_client.call_stream(ollama_input):
+        improved_response = partial_response
+        current_history = chat_history.copy()
+        current_history.append({"role": "assistant", "content": improved_response})
+        yield current_history, "", gr.update(visible=False), ""
+    
+    chat_history.append({"role": "assistant", "content": improved_response})
+    yield chat_history, "", gr.update(visible=False), ""
 
 def plot_svg(probs: dict) -> str:
     """
@@ -78,70 +92,64 @@ def plot_svg(probs: dict) -> str:
     labels = list(probs.keys())
     values = list(probs.values())
 
-    fig, ax = plt.subplots(figsize=(8, 6), facecolor='none')
+    fig, ax = plt.subplots(figsize=(10, 6), facecolor='none')
     ax.set_facecolor('none')
 
-    colors = plt.cm.tab10.colors # 使用matplotlib的tab10颜色，要改颜色这里改
+    colors = plt.cm.Set3.colors
     bar_colors = [colors[i % len(colors)] for i in range(len(values))]
 
-    ax.barh(labels[::-1], values[::-1], color=bar_colors) # 水平柱状图
+    ax.barh(labels[::-1], values[::-1], color=bar_colors, alpha=0.8)
 
     max_val = max(values) if values else 1
     ax.set_xlim(0, max_val + 0.1)
-    ax.set_xlabel("Probability")
-    ax.set_title("Career Recommendation Probabilities")
+    ax.set_xlabel("Probability", fontsize=12)
+    ax.set_title("Career Recommendation Probabilities", fontsize=14, fontweight='bold')
 
     ax.grid(axis='x', linestyle='--', linewidth=0.5, alpha=0.7)
-    # ax.grid(axis='y', linestyle='--', linewidth=0.5, alpha=0.7) # 加y轴网格线
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
 
     fig.tight_layout()
 
     buf = io.StringIO()
-    fig.savefig(buf, format='svg', transparent=True)
+    fig.savefig(buf, format='svg', transparent=True, bbox_inches='tight')
     svg_data = buf.getvalue()
     buf.close()
     plt.close(fig)
     return svg_data
 
-def update_chart(message: str) -> str:
-    try:
-        probs = predictor.predict(message)
-    except NameError:
-        raise RuntimeError("predict 函数未定义，请实现 predict(message) -> dict。")
-    svg = plot_svg(probs)
-    svg = svg.replace( # 注入SVG头居中显示
-        "<svg ",
-        '<svg height="100%" preserveAspectRatio="xMidYMid meet" '
-    )
-    html = (
-        '<div style="background: transparent; width:100%; height:100%; '
-        'display: flex; justify-content: center; align-items: center;">'
-        f'{svg}'
-        '</div>'
-    )
-    return html
-
-
 if __name__ == "__main__":
+    user_response = ""
     predictor = CareerPredictor()
-    combined_chatbot_instance = Bot()
+    combined_chatbot = Bot()
+
+    system_prompt = "You need to improve the chatbot's output according to the user response to make it more humanization. YOU ONLY NEED TO GIVE ME THE IMPROVED OUTPUT."
+    llm_client = LLMClient(system_prompt)
+    
     with gr.Blocks(theme=Seafoam()) as app:
         gr.Markdown("## Xplore Career Chatbot")
         gr.Markdown("This is **Xplore Career Chatbot**. You can ask questions about careers. Start by typing `hello` or `hi`.")
         
-        # 聊天窗和概率图的比例为3:2
+        chatbot = gr.Chatbot(label="Xplore Career Bot", type='messages', height=500)
         with gr.Row(equal_height=True):
-            with gr.Column(scale=3):
-                chatbot = gr.Chatbot(label="Xplore Career Bot", type='messages')
-            with gr.Column(scale=2):
-                chart = gr.HTML(elem_id="prob_chart",)
+            with gr.Column(scale=9):
+                user_input = gr.Textbox(
+                    placeholder="Welcome to ask questions about career! (Press Enter to send, Shift+Enter for new line)", 
+                    show_label=False
+                )
+            with gr.Column(scale=1):
+                submit = gr.Button("Send", size="sm", variant="primary")
 
         with gr.Row():
-            user_input = gr.Textbox(placeholder="Welcome to ask questions about career!", show_label=False)
-
-        with gr.Row(equal_height=True):
-            submit = gr.Button("Send", size="sm")
+            predict_btn = gr.Button("Predict", size="sm", variant="secondary")
             clear = gr.Button("Clear", size="sm")
+        
+        # 预测结果显示区域（使用可折叠的Column）
+        with gr.Column(visible=False) as prediction_panel:
+            with gr.Row():
+                gr.Markdown("### Career Prediction Results")
+                close_prediction_btn = gr.Button("✕", size="sm", variant="secondary")
+            prediction_chart = gr.HTML()
 
         with gr.Row():
             gr.Markdown("**Examples:**")
@@ -149,18 +157,64 @@ if __name__ == "__main__":
             example2 = gr.Button("START PLANNING", size="sm")
             example3 = gr.Button("CV HELP", size="sm")
         
+        # 事件绑定
         example1.click(lambda: "CAREERS FOR AIT", None, user_input)
         example2.click(lambda: "START PLANNING", None, user_input)
         example3.click(lambda: "CV HELP", None, user_input)
 
-        submit.click(respond, inputs=[user_input, chatbot], outputs=[chatbot, user_input])
-        submit.click(update_chart, inputs=user_input, outputs=chart)
+        # 流式响应绑定 - 支持回车键
+        submit_event = submit.click(respond, inputs=[user_input, chatbot], outputs=[chatbot, user_input,prediction_panel, prediction_chart])
+        
+        # 回车键提交
+        user_input.submit(respond, inputs=[user_input, chatbot], outputs=[chatbot, user_input, prediction_panel, prediction_chart])
+        
+        # 预测按钮事件
+        def show_prediction_panel():
+            global user_response
+
+            if not user_response.strip():
+                return gr.update(visible=False), ""
+            
+            try:
+                user_response = user_response.strip()
+                print(f"INFO: Predicting user response: {user_response}")
+                probs = predictor.predict(user_response)
+                svg = plot_svg(probs)
+                styled_chart = f"""
+                <div style="
+                    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,248,255,0.9));
+                    border-radius: 15px;
+                    padding: 25px;
+                    margin: 10px 0;
+                    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    backdrop-filter: blur(10px);
+                ">
+                    {svg}
+                </div>
+                """
+                return gr.update(visible=True), styled_chart
+            except Exception as e:
+                return gr.update(visible=False), f"<div style='color: red; text-align: center; padding: 20px;'>Error: {str(e)}</div>"
+        
+        predict_btn.click(
+            show_prediction_panel,
+            inputs=[],
+            outputs=[prediction_panel, prediction_chart]
+        )
+        
+        close_prediction_btn.click(
+            lambda: (gr.update(visible=False), ""),
+            outputs=[prediction_panel, prediction_chart]
+        )
 
         clear.click(lambda: [], None, chatbot)
 
         def initial_load():
-            combined_chatbot_instance.reset()
-            welcome = combined_chatbot_instance.get_response("hello")
+            global user_response
+            user_response = ""
+            combined_chatbot.reset()
+            welcome = combined_chatbot.get_response("hello")
             return [{"role": "assistant", "content": welcome}]
 
         app.load(initial_load, None, chatbot)
