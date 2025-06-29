@@ -4,16 +4,13 @@
 <category>
     <pattern>HELLO</pattern>
     <template>
-    Hello! I'm the Career Recommendation Chatbot for XMUM students._br_
-    You can ask about:_br_
-    - Majors and departments (e.g., "What majors are in Informatics")_br_
-    - Career options by major (e.g., "What careers for software engineering")_br_
-    - Detailed career information (e.g., "Details about backend developer")_br_
-    - Cross-disciplinary options (e.g., "Careers for art and science")_br_
-    - Career preparation (e.g., "How to prepare a resume")_br_
-    - Career Services Office information_b_
+    Hello! I'm the Xplore Career Chatbot for XMUM students._br_
+    You can chat with me in different ways, depending on what you need:_br_
+    - Curious about majors, careers, or how to get started? Just type _b_"ask general"_b_ to see examples._br_
+    - Looking for a personalized career plan? Just type _b_"start planning"_b_, and I’ll guide you step by step._br_
+    - _b_Prefer casual chat?_b_ No problem — talk to me in your own words, and I’ll do my best to help._br_
     _br_
-    To start a personalized career planning session, just type _b_"start planning"_b_.
+    Ready to explore your future? I'm here to guide you.
     </template>
 </category>
 
@@ -21,9 +18,20 @@
     <pattern>HI</pattern>
     <template><srai>HELLO</srai></template>
 </category>
+
 <category>
     <pattern>ASK GENERAL</pattern>
-    <template><srai>HELLO</srai></template>
+    <template>
+    You can ask about all kinds of career-related topics, such as:_br_
+    - Majors and departments (e.g., _i_"What majors are in Informatics"_)_br_
+    - Career options by major (e.g., _i_"What careers for software engineering"_)_br_
+    - Detailed career roles (e.g., _i_"Tell me about backend developer"_)_br_
+    - Cross-disciplinary ideas (e.g., _i_"Careers for art and science"_)_br_
+    - Career preparation (e.g., _i_"How to prepare a resume"_)_br_
+    - Career Services Office (e.g., events, support, resources)_br_
+    _br_
+    Just type your question and I’ll do my best to help!
+    </template>
 </category>
 
 <category>
