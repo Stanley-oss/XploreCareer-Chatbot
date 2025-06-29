@@ -5,7 +5,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.colors import LinearSegmentedColormap
 import numpy as np
 
-df = pd.read_csv('厦马职业50英语版.csv')
+df = pd.read_csv('weights.csv')
 
 df.columns = ['Profession', 'Mathematical Skills', 'Programming Ability', 'Creativity', 'Analytical Skills',
               'Communication Skills', 'Leadership Skills', 'Business Acumen',
