@@ -11,10 +11,10 @@ AI-powered chatbot helps XMUM students discover personalized career paths throug
 ### AI-Powered Career Prediction  
 - **NLP-Driven Analysis**: Keyword extraction from conversations. Career suitability prediction with probability scoring  
 - **Visual Analytics**: Probability graphs for recommended career paths
----
-## Demo  
 
----
+## Demonstration  
+![demo_light](./demo/demo_light.gif)
+
 ## How to Setup:
 ### Prerequisites:
 #### Ollama client with Phi4-mini: Get from https://ollama.com/
