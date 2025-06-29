@@ -56,7 +56,7 @@ class CareerPredictor:
 
     def log_posterior(self, W, data, sigma):
         """
-        计算对数后验概率
+        Compute the log posterior probability
         """
         try:
             log_prior = -0.5 * np.sum(W ** 2) / (self.sigma0 ** 2)
@@ -142,7 +142,7 @@ class CareerPredictor:
 
     def predict(self, text: str) -> dict:
         """
-        进行职业预测：输入用户的回答，返回预测的前10个职业及其概率
+        Make career predictions: enter the user's responses and return the top 10 predicted careers and their probabilities
         """
         if not text.strip():
             return {profession: 0.0 for profession in self.professions[:min(10, len(self.professions))]}
@@ -170,7 +170,7 @@ class CareerPredictor:
 
             scores = self.feature_matrix.dot(posterior)
 
-            # 归一化
+            # normalize
             if len(scores) > 1:
                 min_score = np.min(scores)
                 max_score = np.max(scores)
@@ -181,7 +181,7 @@ class CareerPredictor:
                 else:
                     scores = np.ones_like(scores) * 0.5
             else:
-                scores = np.array([0.5])  # 单个职业时的默认值
+                scores = np.array([0.5])  # Default value for a single occupation
 
             result = dict()
             num_professions = min(10, len(self.professions))
@@ -199,5 +199,5 @@ class CareerPredictor:
         except Exception as e:
             if DEBUG:
                 print(f"Error in prediction: {str(e)}")
-            # 返回默认结果
+            # Returns the default result
             return {profession: 0.1 for profession in self.professions[:min(10, len(self.professions))]}
