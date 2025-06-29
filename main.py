@@ -74,7 +74,8 @@ async def respond(message: str, chat_history: list):
     user_response = user_response + ' ' + message
     bot_response_original = combined_chatbot.get_response(message)
     chat_history.append({"role": "user", "content": message})
-    ollama_input = f"User Input: {message}\nChatbot Output: {bot_response_original}"
+    ollama_input = f"User Input: {message}\nTemplate Response: {bot_response_original}\n"
+    print(f"INFO: Chatbot Input: {bot_response_original}")
 
     # 流式获取改进后的响应
     improved_response = ""
@@ -128,7 +129,7 @@ if __name__ == "__main__":
     predictor = CareerPredictor()
     combined_chatbot = Bot()
 
-    system_prompt = "You need to improve the chatbot's output according to the user response to make it more humanization. YOU ONLY NEED TO GIVE ME THE IMPROVED OUTPUT."
+    system_prompt = "You are a professional Career Recommendation Bot by the name of Xplore Career Chatbot, dedicated to the career recommendation of Xiamen University Malaysia(XMUM) students. The following inputs are all user inputs with corresponding template responses, you need to give a lively, human-friendly and concise response based on the template responses. Your response better be framed by the template unless the template indicates that it does not know how to answer, then it will be you to answer the user. Do not insert links in your response, try to keep your response concise and clear. ATTENTION YOU ONLY NEED TO REPLY YOUR RESPONSE, DO NOT MENTION THE EXISTANCE OF THE TEMPLATE, YOU ARE DIRECTLY COMMUNICATING WITH THE USER."
     llm_client = LLMClient(system_prompt)
 
     with gr.Blocks(theme=Seafoam()) as app:
