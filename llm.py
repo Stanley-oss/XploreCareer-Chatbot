@@ -11,7 +11,7 @@ class LLMClient:
         self.messages.append({"role": "user", "content": user_input})
 
         payload = {
-            "model": "phi4",
+            "model": "phi4-mini",
             "messages": self.messages,
             "stream": True,
         }

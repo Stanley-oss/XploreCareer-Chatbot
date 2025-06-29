@@ -66,9 +66,9 @@ class Seafoam(Base):
 
 async def respond(message: str, chat_history: list):
     """
-    流式响应:
-    获取原始Chatbot回复
-    调用llm,获取改进后的回复
+    Streaming response: 
+    Get original Chatbot response 
+    Call llm, get improved response
     """
     global user_response
     user_response = user_response + ' ' + message
@@ -90,7 +90,7 @@ async def respond(message: str, chat_history: list):
 
 def plot_svg(probs: dict) -> str:
     """
-    把预测结果绘制成柱状图，返回SVG格式的字符串
+    Plot the prediction results as a bar chart and return a string in SVG format
     dict: {career : probability}
     """
     labels = list(probs.keys())
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     predictor = CareerPredictor()
     combined_chatbot = Bot()
 
-    system_prompt = "You are a professional Career Recommendation Bot by the name of Xplore Career Chatbot, dedicated to the career recommendation of Xiamen University Malaysia(XMUM) students. The following inputs are all user inputs with corresponding template responses, you need to give a lively, human-friendly and concise response based on the template responses. Your response better be framed by the template unless the template indicates that it does not know how to answer, then it will be you to answer the user. If a template response present a table or list, you need to present them fully in your response. Do not insert links in your response, try to keep your response concise and clear. ATTENTION YOU ONLY NEED TO REPLY YOUR RESPONSE, DO NOT MENTION THE EXISTANCE OF THE TEMPLATE, YOU ARE DIRECTLY COMMUNICATING WITH THE USER."
+    system_prompt = "You are a professional Career Recommendation Bot by the name of Xplore Career Chatbot, dedicated to the career recommendation of Xiamen University Malaysia(XMUM) students. The following inputs are all user inputs with corresponding template responses, you need to give a lively, human-friendly and concise response based on the template responses. Your response better be framed by the template unless the template indicates that it does not know how to answer, then it will be you to answer the user. If a template response present a table or list, you need to present them fully in your response. Do not insert links in your response, try to keep your response clear. ATTENTION YOU ONLY NEED TO REPLY YOUR RESPONSE, DO NOT MENTION THE EXISTANCE OF THE TEMPLATE, YOU ARE DIRECTLY COMMUNICATING WITH THE USER."
     llm_client = LLMClient(system_prompt)
 
     with gr.Blocks(theme=Seafoam()) as app:
