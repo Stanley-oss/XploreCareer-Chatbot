@@ -77,7 +77,6 @@ async def respond(message: str, chat_history: list):
     ollama_input = f"User Input: {message}\nTemplate Response: {bot_response_original}\n"
     print(f"INFO: Chatbot Input: {bot_response_original}")
 
-    # 流式获取改进后的响应
     improved_response = ""
     async for partial_response in llm_client.call_stream(ollama_input):
         improved_response = partial_response
