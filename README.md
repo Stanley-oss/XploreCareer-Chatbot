@@ -21,6 +21,7 @@ AI-powered chatbot helps XMUM students discover personalized career paths throug
 After installed the Ollama client, run:
 ```
 ollama pull phi4-mini
+ollama pull phi4
 ```
 #### Python packages:
 ```
